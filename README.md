@@ -21,5 +21,6 @@ https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/DNA_Seq_Variant_Callin
 
 ## O pipeline esta divido em duas etapa
   - Criação do Painel de Normal.
+  
   - Identificação das variantes somática.
 
