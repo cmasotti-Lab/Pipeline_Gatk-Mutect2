@@ -1,13 +1,17 @@
 # Pipeline_Gatk-Mutect2
 
 A Pipeline foi desenvolvida para identificação de variantes somaticas em dados de Exoma tumor-only.
-Tem como base o GATK Mutect2.
-Utilizamos a ferramenta Mutect2 com uma abordagem de tumor-only para identificar mutações somáticas. 
-O Mutect2 utiliza um painel de normais (PoN) para excluir as variantes germinativas raras, então utilizamos o PoN com 100 indivíduos do projeto Covid-Brasil. 
 
+As amostras utilizadas são do projeto de cancer de reto localmente avançado.
 
+O pipeline tem como base a abordagem do GATK Mutect2 para identificaça mutações somáticas em amostras tumorais em a presença do controle normal.
 
-Referencias:
+O Mutect2 utiliza um painel de normais (PoN) com não relacionadas para saparar as variantes germinativas das somaticas.
+
+Para o desenvolvimento do PoN utilizamos amostras de 100 indivíduos (não-cancer) do projeto SARS-CoV2-Brasil (SECOLIN, et al. 2021).  
+
+### Documentação do GATK Mutect2:
+
 https://gatk.broadinstitute.org/hc/en-us/articles/360047232772--Notebook-Intro-to-using-Mutect2-for-somatic-data
 https://gatk.broadinstitute.org/hc/en-us/articles/360035531132--How-to-Call-somatic-mutations-using-GATK4-Mutect2
 https://gatk.broadinstitute.org/hc/en-us/articles/360035889791?id=11136
