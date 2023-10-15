@@ -1,6 +1,7 @@
 # Pipeline_Gatk-Mutect2
 
 ![Workflow](https://github.com/cmasotti-Lab/Pipeline_Gatk-Mutect2/assets/11162991/74970b4a-c88d-4d17-8957-6b3824d61d9f)
+[Detailed Extended Pipelines](https://drive.google.com/file/d/100eEe_oiofVWKpySCTJfEtS2OvwRBM9m/view?usp=sharing)
 
 This pipeline has been developed for the identification of somatic variants in tumor-only exome data.
 
@@ -27,3 +28,5 @@ This pipeline is divided into two stages:
 
 - Creation of the Panel of Normals (PoN).
 - Identification of somatic variants.
+
+[Detailed Extended Pipelines](https://drive.google.com/file/d/100eEe_oiofVWKpySCTJfEtS2OvwRBM9m/view?usp=sharing)
