@@ -1,26 +1,32 @@
 # Pipeline_Gatk-Mutect2
 
-A Pipeline foi desenvolvida para identificação de variantes somaticas em dados de Exoma tumor-only.
+![Workflow](https://github.com/cmasotti-Lab/Pipeline_Gatk-Mutect2/assets/11162991/74970b4a-c88d-4d17-8957-6b3824d61d9f)
+[Detailed Extended Pipelines](https://drive.google.com/file/d/100eEe_oiofVWKpySCTJfEtS2OvwRBM9m/view?usp=sharing)
 
-As amostras utilizadas são do projeto de cancer de reto localmente avançado.
+This pipeline has been developed for the identification of somatic variants in tumor-only exome data.
 
-O pipeline tem como base a abordagem do GATK Mutect2 para identificaça mutações somáticas em amostras tumorais em a presença do controle normal.
+The samples used are from the locally advanced rectal cancer project.
 
-O Mutect2 utiliza um painel de normais (PoN) com não relacionadas para saparar as variantes germinativas das somaticas.
+The pipeline is based on the GATK Mutect2 approach for identifying somatic mutations in tumor samples in the presence of normal controls.
 
-Para o desenvolvimento do PoN utilizamos amostras de 100 indivíduos (não-cancer) do projeto SARS-CoV2-Brasil (SECOLIN, et al. 2021).  
+Mutect2 uses a Panel of Normals (PoN) with unrelated samples to separate germline variants from somatic ones.
 
-### Documentação do GATK Mutect2:
+For the development of the PoN, we used samples from 100 non-cancer individuals from the SARS-CoV2-Brasil project (SECOLIN, et al. 2021).
 
-https://gatk.broadinstitute.org/hc/en-us/articles/360047232772--Notebook-Intro-to-using-Mutect2-for-somatic-data
-https://gatk.broadinstitute.org/hc/en-us/articles/360035531132--How-to-Call-somatic-mutations-using-GATK4-Mutect2
-https://gatk.broadinstitute.org/hc/en-us/articles/360035889791?id=11136
-https://github.com/broadinstitute/gatk/blob/master/docs/mutect/mutect.pdf
-https://gatk.broadinstitute.org/hc/en-us/articles/360035890491?id=11127
-https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/DNA_Seq_Variant_Calling_Pipeline/#tumor-only-variant-calling-workflow
+### GATK Mutect2 Documentation:
 
-## O pipeline esta divido em duas etapa
-  - Criação do Painel de Normal.
-  
-  - Identificação das variantes somática.
+- [Intro to using Mutect2 for somatic data](https://gatk.broadinstitute.org/hc/en-us/articles/360047232772--Notebook-Intro-to-using-Mutect2-for-somatic-data)
+- [How to Call somatic mutations using GATK4 Mutect2](https://gatk.broadinstitute.org/hc/en-us/articles/360035531132--How-to-Call-somatic-mutations-using-GATK4-Mutect2)
+- [Mutect2 Documentation](https://gatk.broadinstitute.org/hc/en-us/articles/360035889791?id=11136)
+- [Mutect2 PDF Manual](https://github.com/broadinstitute/gatk/blob/master/docs/mutect/mutect.pdf)
+- [Tumor-Only Variant Calling Workflow](https://gatk.broadinstitute.org/hc/en-us/articles/360035890491?id=11127)
+- [DNA Sequencing Variant Calling Pipeline](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/DNA_Seq_Variant_Calling_Pipeline/#tumor-only-variant-calling-workflow)
 
+## Pipeline Stages
+
+This pipeline is divided into two stages:
+
+- Creation of the Panel of Normals (PoN).
+- Identification of somatic variants.
+
+[Detailed Extended Pipelines](https://drive.google.com/file/d/100eEe_oiofVWKpySCTJfEtS2OvwRBM9m/view?usp=sharing)
