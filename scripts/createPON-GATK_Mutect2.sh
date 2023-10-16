@@ -4,7 +4,7 @@ CRAM_DIR="$WD/samples/"
 CRAM_FILES=$(find "$CRAM_DIR" -maxdepth 1 -mindepth 1  -name '*.cram')
 REF_FASTA="$WD/reference/"
 GATK="$WD/gatk-4.3.0.0/./gatk"
-TARGET="$WD/reference/xgen-exome-research-panel-v2-targets-hg38.autossome.bed"
+TARGET="$WD/reference/xgen-exome-research-panel-v2-targets-hg38.bed"
 
 OUTPUT_DIR="RESULT_PON-GATK4.3_Mutect2"
 mkdir $OUTPUT_DIR
