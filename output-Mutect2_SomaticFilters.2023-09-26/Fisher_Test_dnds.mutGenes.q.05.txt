@@ -1,0 +1,2035 @@
+[1] "============================================================="
+[1] "Response1"
+[1] "FBXW7"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           8      7
+  not_dNdSGene      45      9
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.05603707 0.96470863
+sample estimates:
+odds ratio 
+ 0.2347639 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "KIF4B"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      4
+  not_dNdSGene      51     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.01000693 0.96813621
+sample estimates:
+odds ratio 
+  0.122822 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "RBM44"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "C2orf78"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      4
+  not_dNdSGene      51     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.01000693 0.96813621
+sample estimates:
+odds ratio 
+  0.122822 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "RNF182"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "XIRP2"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           3      4
+  not_dNdSGene      50     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0455
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.02396864 1.25594925
+sample estimates:
+odds ratio 
+ 0.1860679 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "RAD9B"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "PTEN"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "YRDC"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "SAXO2"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "AXDND1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "COLEC12"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      4
+  not_dNdSGene      51     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.01000693 0.96813621
+sample estimates:
+odds ratio 
+  0.122822 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "LRRC63"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      4
+  not_dNdSGene      53     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.002105
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.4027926
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "CDH10"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "RARB"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "NRAP"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           3      4
+  not_dNdSGene      50     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0455
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.02396864 1.25594925
+sample estimates:
+odds ratio 
+ 0.1860679 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "NRDE2"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      4
+  not_dNdSGene      51     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.01000693 0.96813621
+sample estimates:
+odds ratio 
+  0.122822 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "WDR36"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      4
+  not_dNdSGene      53     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.002105
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.4027926
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "ADGRG4"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      6
+  not_dNdSGene      51     10
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.001394
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.006029504 0.455711906
+sample estimates:
+odds ratio 
+0.06931244 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "MYH7B"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           4      5
+  not_dNdSGene      49     11
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02617
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.03122165 1.01500794
+sample estimates:
+odds ratio 
+ 0.1856581 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "TUBGCP5"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "UGT2B15"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "CLSTN3"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      4
+  not_dNdSGene      52     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.008972
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001156944 0.686647967
+sample estimates:
+odds ratio 
+0.06111019 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "SLITRK3"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "MAP3K19"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "TEX13C"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "CFAP47"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           3      4
+  not_dNdSGene      50     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0455
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.02396864 1.25594925
+sample estimates:
+odds ratio 
+ 0.1860679 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "GPM6A"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "PAX8"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "MED12L"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "MMP8"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "TERB1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "TTC21A"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "MEIS1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "ROS1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      4
+  not_dNdSGene      51     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.01000693 0.96813621
+sample estimates:
+odds ratio 
+  0.122822 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "ADAMTSL3"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "GDAP2"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "TRAF3IP3"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "FLT1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "THSD1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "PTPN21"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      4
+  not_dNdSGene      51     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.01000693 0.96813621
+sample estimates:
+odds ratio 
+  0.122822 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "BCO1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "LRRD1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "CSDE1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "OR8H3"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "DOCK8"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      4
+  not_dNdSGene      52     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.008972
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001156944 0.686647967
+sample estimates:
+odds ratio 
+0.06111019 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "HDLBP"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "CD1A"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "KIF26A"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           2      4
+  not_dNdSGene      51     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02292
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.01000693 0.96813621
+sample estimates:
+odds ratio 
+  0.122822 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "DNAJB13"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "GAD2"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "PDZRN4"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "KRT16"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "UGGT1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "SYT3"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "ERC2"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "FTCD"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "ABCC9"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "SYCP2"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "RBL1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "IGFLR1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      53     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6793351
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "PJA1"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "EGF"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           1      3
+  not_dNdSGene      52     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.03644
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.001565421 1.188367056
+sample estimates:
+odds ratio 
+0.08749608 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "FSIP2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      2                      0      2
+  not_dNdSGene                 14                     37     14
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0416
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "KIF4B"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      2      4
+  not_dNdSGene                 16                     35     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.04845
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "RBM44"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "C2orf78"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      1      4
+  not_dNdSGene                 15                     36     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02823
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "RNF182"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "CYP4B1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      2                      0      2
+  not_dNdSGene                 14                     37     14
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0416
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "RAD9B"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "PTEN"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "SAXO2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "AXDND1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "COLEC12"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      1      4
+  not_dNdSGene                 15                     36     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02823
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "LRRC63"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      4
+  not_dNdSGene                 16                     37     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.004211
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "RBMXL2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      2                      0      2
+  not_dNdSGene                 14                     37     14
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0416
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "CDH10"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      3
+  not_dNdSGene                 15                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02494
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "NRDE2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      2      4
+  not_dNdSGene                 16                     35     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.04845
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "WDR36"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      4
+  not_dNdSGene                 16                     37     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.004211
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "ADGRG4"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      1      6
+  not_dNdSGene                 15                     36     10
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.002493
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "UGT2B15"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "DNAH9"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      4                      0      3
+  not_dNdSGene                 12                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.003669
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "CLSTN3"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      4
+  not_dNdSGene                 15                     37     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.00596
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "MAP3K19"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "PAX8"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      3
+  not_dNdSGene                 15                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02494
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "MED12L"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      3
+  not_dNdSGene                 15                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02494
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "TERB1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "MGAM2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      3                      0      2
+  not_dNdSGene                 13                     37     14
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01792
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "MEIS1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "ROS1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      2      4
+  not_dNdSGene                 16                     35     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.04845
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "GDAP2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "TRAF3IP3"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "THSD1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "PTPN21"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      2      4
+  not_dNdSGene                 16                     35     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.04845
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "BCO1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      3
+  not_dNdSGene                 15                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02494
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "LRRD1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "PIWIL1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      2                      0      2
+  not_dNdSGene                 14                     37     14
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0416
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "ATP7B"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      2                      0      2
+  not_dNdSGene                 14                     37     14
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0416
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "OR8H3"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "DOCK8"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      1      4
+  not_dNdSGene                 16                     36     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0299
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "HDLBP"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "CD1A"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "KIF26A"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      2      4
+  not_dNdSGene                 16                     35     12
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.04845
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "DNAJB13"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "GAD2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      3
+  not_dNdSGene                 15                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02494
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "PDGFB"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      3                      0      0
+  not_dNdSGene                 13                     37     16
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "KRT16"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "ERC2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "FTCD"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      3
+  not_dNdSGene                 15                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02494
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "ABCC9"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      1                      0      3
+  not_dNdSGene                 15                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02494
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "SYCP2"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "IGFLR1"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 16                     37     13
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.02138
+alternative hypothesis: two.sided
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response3"
+[1] "DNAH9"
+              Response3
+mutGene        Metastatic Not-Metastatic
+  dNdSGene              4              3
+  not_dNdSGene         12             50
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.0455
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+  0.7962105 41.7211872
+sample estimates:
+odds ratio 
+  5.374382 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response3"
+[1] "PDGFB"
+              Response3
+mutGene        Metastatic Not-Metastatic
+  dNdSGene              3              0
+  not_dNdSGene         13             53
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.01069
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 1.472028      Inf
+sample estimates:
+odds ratio 
+       Inf 
+
+[1] "============================================================="
