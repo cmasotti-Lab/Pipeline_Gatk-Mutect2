@@ -5,6 +5,8 @@
 
 This pipeline has been developed for the identification of somatic variants in tumor-only exome data.
 
+
+
 The samples used are from the locally advanced rectal cancer project.
 
 The pipeline is based on the GATK Mutect2 approach for identifying somatic mutations in tumor samples in the presence of normal controls.
