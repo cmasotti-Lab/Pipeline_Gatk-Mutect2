@@ -19,6 +19,7 @@ export SAMPLES_DIR="$SCRATCH60/preprocessing_FINAL_result/"
 export SAMPLES_FILE=$(find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam')
 export REF_FASTA="/home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/"
 export GATK="$SCRATCH60/tools/gatk-4.3.0.0/./gatk"
+export GATK="gatk"
 export TARGET="$SCRATCH60/references/xgen-exome-research-panel-v2-targets-hg38.bed"
 export PON="/home/users/vlira/PanelOfNornal/PoN.100COVID.vcf.gz"
 export GNOMAD="$SCRATCH60/references/af-only-gnomad.hg38.vcf.gz"
