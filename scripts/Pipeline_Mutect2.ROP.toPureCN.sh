@@ -11,7 +11,8 @@
  # -v /home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/:/home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/ \
  # -v /home/users/vlira/:/home/users/vlira/ \
  # -w / \
- # -u $(id -u):$(id -g) --rm -it broadinstitute/gatk  
+ # -u $(id -u):$(id -g) --rm -it broadinstitute/gatk
+
 
 
 export SCRATCH60="/home/scratch60/vlira_18jan2024/"
