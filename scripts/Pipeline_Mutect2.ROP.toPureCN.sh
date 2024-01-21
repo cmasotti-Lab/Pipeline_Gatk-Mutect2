@@ -34,7 +34,7 @@ export GNOMAD="$SCRATCH60/references/af-only-gnomad.hg38.vcf.gz"
 export ANNOVAR="$SCRATCH60/tools/annovar/table_annovar.pl"
 export ANNOVAR_DB="$SCRATCH60/humandb/"
 export CROSS_REFERENCE="$SCRATCH60/references/refGene_TARGET_COSMICv82CensusGene_F1.txt"
-export TIME_FILE="$OUTPUT_DIR/$OUTPUT_DIR.log"
+export TIME_FILE="$OUTPUT_DIR.log"
 
 mkdir $OUTPUT_DIR
 find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam.cram' > $OUTPUT_DIR/samples.list
