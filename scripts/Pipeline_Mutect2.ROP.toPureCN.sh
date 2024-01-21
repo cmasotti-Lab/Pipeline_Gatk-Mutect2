@@ -13,13 +13,11 @@
  # -w / \
  # -u $(id -u):$(id -g) --rm -it broadinstitute/gatk
 
-
-
 export SCRATCH60="/home/scratch60/vlira_18jan2024/"
 
 export DATA=$(date "+%F")
 export MEM=100
-export JOBS=10
+export JOBS=5
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 
 export OUTPUT_DIR=${SCRATCH60}"/Result_Mutect2.ROP.toPureCN.${DATA}"
@@ -27,7 +25,7 @@ export OUTPUT_DIR=${SCRATCH60}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 export SAMPLES_DIR="$SCRATCH60/preprocessing_FINAL_result/"
 export SAMPLES_FILE=$(find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam')
 export REF_FASTA="/home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/"
-export GATK="$SCRATCH60/tools/gatk-4.3.0.0/./gatk"
+export GATK="$SCRATCH60/tools/gatk-4.5.0.0/./gatk"
 #export GATK="gatk"
 export TARGET="$SCRATCH60/references/xgen-exome-research-panel-v2-targets-hg38.bed"
 export PON="/home/users/vlira/PanelOfNornal/PoN.100COVID.vcf.gz"
@@ -36,11 +34,8 @@ export GNOMAD="$SCRATCH60/references/af-only-gnomad.hg38.vcf.gz"
 export ANNOVAR="$SCRATCH60/tools/annovar/table_annovar.pl"
 export ANNOVAR_DB="$SCRATCH60/humandb/"
 export CROSS_REFERENCE="$SCRATCH60/references/refGene_TARGET_COSMICv82CensusGene_F1.txt"
-<<<<<<< HEAD
-export TIME_FILE="${OUTPUT_DIR}.log"
-=======
+
 export TIME_FILE="$OUTPUT_DIR.log"
->>>>>>> 498e2fda3305422d6801ebf01a39c8d1bcd27fef
 
 mkdir $OUTPUT_DIR
 find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam.cram' > $OUTPUT_DIR/samples.list
