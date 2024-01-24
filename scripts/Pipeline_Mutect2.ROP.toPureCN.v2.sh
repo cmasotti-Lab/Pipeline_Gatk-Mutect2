@@ -20,7 +20,7 @@ export SCRATCH45="${2}/vlira_18jan2024/"
 mkdir ${SCRATCH45}
 
 export DATA=$(date "+%F")
-export DATA="2024-01-24"
+export DATA="2024-01-22"
 export MEM=50
 export JOBS=6
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
