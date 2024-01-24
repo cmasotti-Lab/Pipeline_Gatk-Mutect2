@@ -25,7 +25,7 @@ export MEM=50
 export JOBS=6
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 
-export OUTPUT_DIR=${SCRATCH60}"/Result_Mutect2.ROP.toPureCN.${DATA}"
+export OUTPUT_DIR=${SCRATCH45}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
 export SAMPLES_DIR="$SCRATCH60/preprocessing_FINAL_result/"
 export SAMPLES_FILE=$(find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam')
