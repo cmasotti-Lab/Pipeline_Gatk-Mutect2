@@ -1,3 +1,4 @@
+#!/bin/bash 
 #Pipeline criado pra gerar os SNVs.vcf utilizada pelo PureCN
 # Esse script é uma copia do Pipeline_Mutect2.ROP.25-08-2023.sh
 # Alterações nesse script:
@@ -13,11 +14,12 @@
  # -w / \
  # -u $(id -u):$(id -g) --rm -it broadinstitute/gatk
 
+
 export SCRATCH60="/home/scratch60/vlira_18jan2024/"
 
 export DATA=$(date "+%F")
 export MEM=50
-export JOBS=5
+export JOBS=6
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 
 export OUTPUT_DIR=${SCRATCH60}"/Result_Mutect2.ROP.toPureCN.${DATA}"
@@ -38,7 +40,10 @@ export CROSS_REFERENCE="$SCRATCH60/references/refGene_TARGET_COSMICv82CensusGene
 export TIME_FILE="$OUTPUT_DIR.log"
 
 mkdir $OUTPUT_DIR
+
+
 find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam.cram' > $OUTPUT_DIR/samples.list
+SAMPLE_LIST=$1
 
 stage_Mutect2 (){
   local SAMPLE=$1
@@ -205,25 +210,25 @@ echo "                                                     >>>>>> Starting Pipel
 date >> $TIME_FILE
 
 mkdir $OUTPUT_DIR/Mutect2/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
+xargs -a $OUTPUT_DIR/${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 
-mkdir $OUTPUT_DIR/LearnReadOrientationModel/
-stage_LearnReadOrientationModel
+# mkdir $OUTPUT_DIR/LearnReadOrientationModel/
+# stage_LearnReadOrientationModel
 
-mkdir $OUTPUT_DIR/GetPileupSummaries/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
+# mkdir $OUTPUT_DIR/GetPileupSummaries/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
 
-mkdir $OUTPUT_DIR/CalculateContamination/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
+# mkdir $OUTPUT_DIR/CalculateContamination/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
 
-mkdir $OUTPUT_DIR/FilterMutectCalls/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
+# mkdir $OUTPUT_DIR/FilterMutectCalls/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
 
-mkdir $OUTPUT_DIR/left_normalization/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
+# mkdir $OUTPUT_DIR/left_normalization/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
 
-mkdir $OUTPUT_DIR/annotation/
-#annotation
+# mkdir $OUTPUT_DIR/annotation/
+# #annotation
 
 
 echo "" >> $TIME_FILE
