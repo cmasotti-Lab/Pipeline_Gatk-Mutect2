@@ -19,8 +19,8 @@ export SCRATCH60="/home/scratch60/vlira_18jan2024/"
 
 export DATA=$(date "+%F")
 export DATA="2024-01-22"
-export MEM=50
-export JOBS=6
+export MEM=100
+export JOBS=3
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 
 export OUTPUT_DIR=${SCRATCH60}"/Result_Mutect2.ROP.toPureCN.${DATA}"
