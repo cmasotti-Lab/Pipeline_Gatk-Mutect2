@@ -2,7 +2,7 @@
 #Pipeline criado pra gerar os SNVs.vcf utilizada pelo PureCN
 # Esse script é uma copia do Pipeline_Mutect2.ROP.25-08-2023.sh
 # Alterações nesse script:
-# -Exclusão da variavel SCRATCH45
+# -Exclusão da variavel SCRATCH
 # -Output datado automaticamente
 # -Organização das variavéis de ambiente
 
@@ -16,16 +16,16 @@
 
 
 export SCRATCH60="/home/scratch60/vlira_18jan2024/"
-export SCRATCH45="${2}/vlira_18jan2024/"
-mkdir ${SCRATCH45}
+export SCRATCH="${2}/vlira_18jan2024/"
+mkdir ${SCRATCH}
 
 export DATA=$(date "+%F")
 export DATA="2024-01-22"
-export MEM=50
-export JOBS=6
+export MEM=100
+export JOBS=1
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 
-export OUTPUT_DIR=${SCRATCH45}"/Result_Mutect2.ROP.toPureCN.${DATA}"
+export OUTPUT_DIR=${SCRATCH}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
 export SAMPLES_DIR="$SCRATCH60/preprocessing_FINAL_result/"
 export SAMPLES_FILE=$(find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam')
@@ -97,6 +97,7 @@ stage_GetPileupSummaries (){
 
   $GATK --java-options "-Xmx${MEM}G" GetPileupSummaries \
         -I $SAMPLE  \
+        -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
         -V $GNOMAD \
         -L $GNOMAD \
         -O $OUTPUT_DIR/GetPileupSummaries/$NAME.getpileupsummaries.table 2> $OUTPUT_DIR/GetPileupSummaries/$NAME.getpileupsummaries.log
@@ -212,14 +213,14 @@ export -f annotation
 echo "                                                     >>>>>> Starting Pipeline to Run GATK-MUTECT2  <<<<<<" >> $TIME_FILE
 date >> $TIME_FILE
 
-mkdir $OUTPUT_DIR/Mutect2/
-xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
+# mkdir $OUTPUT_DIR/Mutect2/
+# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 
 # mkdir $OUTPUT_DIR/LearnReadOrientationModel/
 # stage_LearnReadOrientationModel
 
-# mkdir $OUTPUT_DIR/GetPileupSummaries/
-# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
+ mkdir $OUTPUT_DIR/GetPileupSummaries/
+ xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
 
 # mkdir $OUTPUT_DIR/CalculateContamination/
 # xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
