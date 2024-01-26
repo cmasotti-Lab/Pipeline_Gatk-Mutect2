@@ -95,6 +95,7 @@ stage_GetPileupSummaries (){
 
   $GATK --java-options "-Xmx${MEM}G" GetPileupSummaries \
         -I $SAMPLE  \
+        -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
         -V $GNOMAD \
         -L $GNOMAD \
         -O $OUTPUT_DIR/GetPileupSummaries/$NAME.getpileupsummaries.table 2> $OUTPUT_DIR/GetPileupSummaries/$NAME.getpileupsummaries.log
@@ -214,8 +215,8 @@ date >> $TIME_FILE
 # xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 # xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 
-mkdir $OUTPUT_DIR/LearnReadOrientationModel/
-stage_LearnReadOrientationModel
+#mkdir $OUTPUT_DIR/LearnReadOrientationModel/
+#stage_LearnReadOrientationModel
 
 mkdir $OUTPUT_DIR/GetPileupSummaries/
 xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
