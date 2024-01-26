@@ -21,7 +21,7 @@ mkdir ${SCRATCH}
 
 export DATA=$(date "+%F")
 export DATA="2024-01-22"
-export MEM=100
+export MEM=200
 export JOBS=1
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 
