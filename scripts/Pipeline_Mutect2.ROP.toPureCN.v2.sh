@@ -58,7 +58,7 @@ stage_Mutect2 (){
 
    # samtools index /home/scratch60/vlira_18jan2024/preprocessing_FINAL_result/${NAME}
 
-    $GATK --java-options "-Xmx100G" Mutect2 \
+    $GATK --java-options "-Xmx${MEM}G" Mutect2 \
           --genotype-germline-sites true --genotype-pon-sites true \
           -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
           -L $TARGET \
@@ -81,7 +81,7 @@ stage_LearnReadOrientationModel (){
   local SAMPLE_READORIENTATION=$(find "$OUTPUT_DIR"/Mutect2/ -maxdepth 1 -mindepth 1  -name '*.f1r2.tar.gz')
   local SAMPLE_F1R2=$(echo $SAMPLE_READORIENTATION| sed 's/\s/ -I  /g')
 
-  $GATK --java-options "-Xmx20G" LearnReadOrientationModel \
+  $GATK --java-options "-Xmx200G" LearnReadOrientationModel \
         -I $SAMPLE_F1R2 \
         -O "$OUTPUT_DIR"/LearnReadOrientationModel/read-orientation-model.tar.gz 2> $OUTPUT_DIR/LearnReadOrientationModel/read-orientation-model.tar.gz.log
 } 
@@ -214,13 +214,13 @@ echo "                                                     >>>>>> Starting Pipel
 date >> $TIME_FILE
 
 # mkdir $OUTPUT_DIR/Mutect2/
-# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
+xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 
 # mkdir $OUTPUT_DIR/LearnReadOrientationModel/
-# stage_LearnReadOrientationModel
+stage_LearnReadOrientationModel
 
- mkdir $OUTPUT_DIR/GetPileupSummaries/
- xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
+mkdir $OUTPUT_DIR/GetPileupSummaries/
+xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
 
 # mkdir $OUTPUT_DIR/CalculateContamination/
 # xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
