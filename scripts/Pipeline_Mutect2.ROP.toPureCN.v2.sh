@@ -1,4 +1,7 @@
 #!/bin/bash 
+
+# Pipeline_Mutect2.ROP.toPureCN.v2.sh /path/samples.list /home/scratch60/
+
 #Pipeline criado pra gerar os SNVs.vcf utilizada pelo PureCN
 # Esse script é uma copia do Pipeline_Mutect2.ROP.25-08-2023.sh
 # Alterações nesse script:
@@ -10,6 +13,7 @@
 # export SCRATCH="${2}/vlira_18jan2024/" Opçao de definir por parametro em qual SCRATCH será enviado o output
 # --interval-padding 50 \
 
+
 # CONECTA NA IMAGEM DOCKER
  # docker run --privileged \
  # -v /home/scratch60/vlira_18jan2024/:/home/scratch60/vlira_18jan2024/ \
@@ -19,7 +23,6 @@
  # -u $(id -u):$(id -g) --rm -it broadinstitute/gatk
  # --genotype-germline-sites true --genotype-pon-sites true \
  # SAMPLE_LIST=$1   Opção de recebe o samples.list por argumento de entrada
-
 
 
 export SCRATCH60="/home/scratch60/vlira_18jan2024/"
