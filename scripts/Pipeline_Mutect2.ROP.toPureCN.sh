@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-# COOMANDO: Pipeline_Mutect2.ROP.toPureCN.sh /path/samples.list /home/scratch60/
+# COMANDO: Pipeline_Mutect2.ROP.toPureCN.sh /path/samples.list /home/scratch60/
 
 #Pipeline criado pra gerar os SNVs.vcf utilizada pelo PureCN
 # Esse script é uma copia do Pipeline_Mutect2.ROP.25-08-2023.sh
