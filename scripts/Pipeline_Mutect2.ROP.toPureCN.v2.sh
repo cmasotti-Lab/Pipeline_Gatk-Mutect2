@@ -5,6 +5,10 @@
 # -Exclusão da variavel SCRATCH
 # -Output datado automaticamente
 # -Organização das variavéis de ambiente
+# --genotype-germline-sites true --genotype-pon-sites true \
+# SAMPLE_LIST=$1   Opção de recebe o samples.list por argumento de entrada
+# export SCRATCH="${2}/vlira_18jan2024/" Opçao de definir por parametro em qual SCRATCH será enviado o output
+# --interval-padding 50 \
 
 # CONECTA NA IMAGEM DOCKER
  # docker run --privileged \
@@ -13,6 +17,9 @@
  # -v /home/users/vlira/:/home/users/vlira/ \
  # -w / \
  # -u $(id -u):$(id -g) --rm -it broadinstitute/gatk
+ # --genotype-germline-sites true --genotype-pon-sites true \
+ # SAMPLE_LIST=$1   Opção de recebe o samples.list por argumento de entrada
+
 
 
 export SCRATCH60="/home/scratch60/vlira_18jan2024/"
@@ -60,6 +67,7 @@ stage_Mutect2 (){
 
     $GATK --java-options "-Xmx${MEM}G" Mutect2 \
           --genotype-germline-sites true --genotype-pon-sites true \
+          --interval-padding 50 \
           -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
           -L $TARGET \
           -I $SAMPLE \
@@ -213,10 +221,11 @@ export -f annotation
 echo "                                                     >>>>>> Starting Pipeline to Run GATK-MUTECT2  <<<<<<" >> $TIME_FILE
 date >> $TIME_FILE
 
-# mkdir $OUTPUT_DIR/Mutect2/
+mkdir $OUTPUT_DIR/Mutect2/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 
-# mkdir $OUTPUT_DIR/LearnReadOrientationModel/
+mkdir $OUTPUT_DIR/LearnReadOrientationModel/
 stage_LearnReadOrientationModel
 
 mkdir $OUTPUT_DIR/GetPileupSummaries/

@@ -5,6 +5,11 @@
 # -Exclusão da variavel SCRATCH45
 # -Output datado automaticamente
 # -Organização das variavéis de ambiente
+# --genotype-germline-sites true --genotype-pon-sites true \
+# SAMPLE_LIST=$1   Opção de recebe o samples.list por argumento de entrada
+# export SCRATCH="${2}/vlira_18jan2024/" Opçao de definir por parametro em qual SCRATCH será enviado o output
+
+
 
 # CONECTA NA IMAGEM DOCKER
  # docker run --privileged \
@@ -16,14 +21,16 @@
 
 
 export SCRATCH60="/home/scratch60/vlira_18jan2024/"
+export SCRATCH="${2}/vlira_18jan2024/"
+mkdir ${SCRATCH}
 
 export DATA=$(date "+%F")
 export DATA="2024-01-22"
-export MEM=100
-export JOBS=3
+export MEM=500
+export JOBS=1
 #export DATA='2024-01-19'   # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 
-export OUTPUT_DIR=${SCRATCH60}"/Result_Mutect2.ROP.toPureCN.${DATA}"
+export OUTPUT_DIR=${SCRATCH}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
 export SAMPLES_DIR="$SCRATCH60/preprocessing_FINAL_result/"
 export SAMPLES_FILE=$(find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam')
@@ -56,7 +63,7 @@ stage_Mutect2 (){
 
    # samtools index /home/scratch60/vlira_18jan2024/preprocessing_FINAL_result/${NAME}
 
-    $GATK --java-options "-Xmx100G" Mutect2 \
+    $GATK --java-options "-Xmx${MEM}G" Mutect2 \
           --genotype-germline-sites true --genotype-pon-sites true \
           -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
           -L $TARGET \
@@ -79,7 +86,7 @@ stage_LearnReadOrientationModel (){
   local SAMPLE_READORIENTATION=$(find "$OUTPUT_DIR"/Mutect2/ -maxdepth 1 -mindepth 1  -name '*.f1r2.tar.gz')
   local SAMPLE_F1R2=$(echo $SAMPLE_READORIENTATION| sed 's/\s/ -I  /g')
 
-  $GATK --java-options "-Xmx20G" LearnReadOrientationModel \
+  $GATK --java-options "-Xmx${MEM}G" LearnReadOrientationModel \
         -I $SAMPLE_F1R2 \
         -O "$OUTPUT_DIR"/LearnReadOrientationModel/read-orientation-model.tar.gz 2> $OUTPUT_DIR/LearnReadOrientationModel/read-orientation-model.tar.gz.log
 } 
@@ -209,27 +216,27 @@ export -f annotation
 
 
 
-echo "                                                     >>>>>> Starting Pipeline to Run GATK-MUTECT2  <<<<<<" >> $TIME_FILE
+echo "                >>>>>> Starting Pipeline to Run GATK-MUTECT2  <<<<<<" >> $TIME_FILE
 date >> $TIME_FILE
 
-# mkdir $OUTPUT_DIR/Mutect2/
+mkdir $OUTPUT_DIR/Mutect2/
 # xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
-# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
+xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 
-#mkdir $OUTPUT_DIR/LearnReadOrientationModel/
-#stage_LearnReadOrientationModel
+mkdir $OUTPUT_DIR/LearnReadOrientationModel/
+stage_LearnReadOrientationModel
 
 mkdir $OUTPUT_DIR/GetPileupSummaries/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
+xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
 
-mkdir $OUTPUT_DIR/CalculateContamination/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
+# mkdir $OUTPUT_DIR/CalculateContamination/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
 
-mkdir $OUTPUT_DIR/FilterMutectCalls/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
+# mkdir $OUTPUT_DIR/FilterMutectCalls/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
 
-mkdir $OUTPUT_DIR/left_normalization/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
+# mkdir $OUTPUT_DIR/left_normalization/
+# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
 
 #mkdir $OUTPUT_DIR/annotation/
 #annotation
