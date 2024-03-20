@@ -238,13 +238,13 @@ mkdir $OUTPUT_DIR/GetPileupSummaries/
 xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
 
 mkdir $OUTPUT_DIR/CalculateContamination/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
+xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
 
 mkdir $OUTPUT_DIR/FilterMutectCalls/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
+xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
 
 mkdir $OUTPUT_DIR/left_normalization/
-xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
+xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
 
 # mkdir $OUTPUT_DIR/annotation/
 # #annotation
