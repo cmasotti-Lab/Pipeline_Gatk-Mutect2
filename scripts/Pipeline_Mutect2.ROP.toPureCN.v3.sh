@@ -224,7 +224,7 @@ export -f annotation
 
 
 
-echo "                                                     >>>>>> Starting Pipeline to Run GATK-MUTECT2  <<<<<<" >> $TIME_FILE
+echo "                                 >>>>>> Starting Pipeline to Run GATK-MUTECT2  <<<<<<" >> $TIME_FILE
 date >> $TIME_FILE
 
 mkdir $OUTPUT_DIR/Mutect2/
