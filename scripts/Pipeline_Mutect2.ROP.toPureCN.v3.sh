@@ -29,7 +29,6 @@
  # --genotype-germline-sites true --genotype-pon-sites true \
  # SAMPLE_LIST=$1   Opção de recebe o samples.list por argumento de entrada
 
-
 export SCRATCH60="/home/scratch60/vlira_15mar2024/"
 export SCRATCH="${2}/vlira_15mar2024/"
 mkdir ${SCRATCH}
