@@ -36,7 +36,7 @@ mkdir ${SCRATCH}
 export DATA=$(date "+%F")
 export DATA="2024-03-20"  # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 export MEM=200
-export JOBS=5
+export JOBS=7
 
 export OUTPUT_DIR=${SCRATCH}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
@@ -56,6 +56,7 @@ export CROSS_REFERENCE="$SCRATCH60/references/refGene_TARGET_COSMICv82CensusGene
 export TIME_FILE="$OUTPUT_DIR.log"
 
 mkdir $OUTPUT_DIR
+
 
 
 find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam.cram' > $OUTPUT_DIR/samples.list
