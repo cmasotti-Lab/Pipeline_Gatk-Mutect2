@@ -58,6 +58,7 @@ export TIME_FILE="$OUTPUT_DIR.log"
 mkdir $OUTPUT_DIR
 
 
+
 find "$SAMPLES_DIR" -maxdepth 1 -mindepth 1  -name '*.dedup.tags.bqsr.bam.cram' > $OUTPUT_DIR/samples.list
 SAMPLE_LIST=$1
 
