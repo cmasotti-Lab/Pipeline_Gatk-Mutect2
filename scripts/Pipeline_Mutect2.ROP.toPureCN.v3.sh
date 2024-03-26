@@ -36,7 +36,7 @@ mkdir ${SCRATCH}
 export DATA=$(date "+%F")
 export DATA="2024-03-20"  # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 export MEM=200
-export JOBS=7
+export JOBS=5
 
 export OUTPUT_DIR=${SCRATCH}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
@@ -229,8 +229,7 @@ echo "                                 >>>>>> Starting Pipeline to Run GATK-MUTE
 date >> $TIME_FILE
 
 mkdir $OUTPUT_DIR/Mutect2/
-# xargs -a $OUTPUT_DIR/samples.list -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
-xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
+# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_Mutect2  "$@"' 'stage_Mutect2'
 
 mkdir $OUTPUT_DIR/LearnReadOrientationModel/
 stage_LearnReadOrientationModel
