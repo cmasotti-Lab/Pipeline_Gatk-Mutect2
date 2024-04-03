@@ -47,8 +47,8 @@ wd <- "D:/PROJETOS-HSL_BP/resultados_Mutect2-2024/"
 setwd(wd)
 dir.create("output-Mutect2_SomaticFilters.2024-02-05/")
 dir.create("output-Mutect2_SomaticFilters.2024-02-05/plots")
-output <- "output-Mutect2_SomaticFilters.2024-02-05/"
 
+output <- "output-Mutect2_SomaticFilters.2024-02-05/"
 Clinical69<-fread(paste0(output,"/Clinical.69.tsv"), quote = F, sep="\t")
 Clinical69$Resposta3 <- ifelse(Clinical69$ID_Exoma == 'ROP-50', 'metastatico', Clinical69$Resposta3)
 Clinical69$Response3 <- ifelse(Clinical69$ID_Exoma == 'ROP-50', 'Metastatic', Clinical69$Response3)
@@ -850,13 +850,13 @@ for (geneClass in classeGenes) {
 
 # sink(file = paste0(output,"/Fisher_Test_dnds.mutGenes.FDR10.txt"), append = FALSE)
 
-dndsGenes <-fread(paste0(output,"somatic.50.mut_signif_genes.tsv"), header = T, na.strings=c("NA"), fill=TRUE, check.names = FALSE)
-# dndsGenes <- subset(dndsGenes, qglobal_cv <= 0.1, select = "gene_name")
+dndsGenes <-fread(paste0(output,"somatic.52.mut_signif_genes.tsv"), header = T, na.strings=c("NA"), fill=TRUE, check.names = FALSE)
+ dndsGenes <- subset(dndsGenes, qglobal_cv <= 0.1, select = "gene_name")
 
 for (resp in respostas) {
   for (gene in dndsGenes$gene_name) {
     # resp <- "ClinicalOutcome"
-    # gene="APC"
+    # gene="FBXW7"
     aux <-sampleTableCount.Clinical
     aux$mutGene <-"not_dNdSGene"
     mutados<- unique(subset(somatic.52,  Gene.refGene == gene, select = ID_Exoma))
