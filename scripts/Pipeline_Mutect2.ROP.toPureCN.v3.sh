@@ -34,9 +34,15 @@ export SCRATCH="${2}/vlira_15mar2024/"
 mkdir ${SCRATCH}
 
 export DATA=$(date "+%F")
+<<<<<<< HEAD
 export DATA="2024-03-28"  # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 export MEM=100
 export JOBS=3
+=======
+export DATA="2024-04-03"  # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
+export MEM=200
+export JOBS=5
+>>>>>>> 71aaefeac73d7d9aab4ca211edc1da0953494c69
 
 export OUTPUT_DIR=${SCRATCH}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
