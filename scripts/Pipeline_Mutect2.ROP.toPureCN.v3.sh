@@ -99,7 +99,7 @@ stage_LearnReadOrientationModel (){
   $GATK --java-options "-Xmx200G" LearnReadOrientationModel \
         -I $SAMPLE_F1R2 \
         -O "$OUTPUT_DIR"/LearnReadOrientationModel/read-orientation-model.tar.gz 2> $OUTPUT_DIR/LearnReadOrientationModel/read-orientation-model.tar.gz.log
-} 
+}
 
 
 stage_GetPileupSummaries (){
