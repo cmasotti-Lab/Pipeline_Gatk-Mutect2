@@ -3,7 +3,6 @@
 #2. Alterado o diretorio onde estava o PON na scratch45 para /home/users/vlira/PanelOfNormals/PoN.100COVID.vcf.gz
 #3. Agora o script recebe 2 agumentos: 1- lista de amostras; 2- diretorio SCRATCH
 
-
 export SCRATCH60="/home/scratch60/vlira_15mar2024/"
 
 # Verifica se dois argumentos foram passados
