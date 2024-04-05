@@ -20,7 +20,7 @@ export MEM=200
 export JOBS=5
 
 export DATA=$(date "+%F")
-export DATA="2024-04-03"  # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
+export DATA="2024-04-05"  # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
 export OUTPUT_DIR=${SCRATCH}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
 export REF_FASTA="/home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/"
