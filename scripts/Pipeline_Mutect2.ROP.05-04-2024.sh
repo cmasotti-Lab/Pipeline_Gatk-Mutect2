@@ -145,16 +145,12 @@ annotation (){
   
   local SAMPLE_CALL_GENO=$(find "$OUTPUT_DIR"/left_normalization/ -maxdepth 1 -mindepth 1  -name '*.norm_Step2.vcf.gz')
 
-  #bcftools merge -m id -O z -o $OUTPUT_DIR/annotation/mutect.merged.vcf $SAMPLE_CALL_GENO 2> $OUTPUT_DIR/annotation/mutect.merged.log
-  #bcftools index "$OUTPUT_DIR/annotation/mutect.merged.vcf"
+  # bcftools merge -m id -O z -o $OUTPUT_DIR/annotation/mutect.merged.vcf $SAMPLE_CALL_GENO 2> $OUTPUT_DIR/annotation/mutect.merged.log
+  # bcftools index "$OUTPUT_DIR/annotation/mutect.merged.vcf"
 
-  #vcf-merge $SAMPLE_CALL_GENO > $OUTPUT_DIR/annotation/mutect.merged2.vcf 2> $OUTPUT_DIR/annotation/mutect.merged2.log
-  #bcftools index "$OUTPUT_DIR/annotation/mutect.merged2.vcf"
-
-
-  bcftools norm -m-both -O z -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.vcf 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.log
-  bcftools norm -O z -f $REF_FASTA/Homo_sapiens_assembly38.fasta -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.log
-  bcftools index $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz
+  # bcftools norm -m-both -O z -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.vcf 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.log
+  # bcftools norm -O z -f $REF_FASTA/Homo_sapiens_assembly38.fasta -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.log
+  # bcftools index $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz
 
 
   # # annovar
@@ -162,7 +158,7 @@ annotation (){
    echo ">>>>>> Executando annovar para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
   
    $ANNOVAR  --vcfinput $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $ANNOVAR_DB -buildver hg38 --remove \
-   --protocol refGene,avsnp150,gnomad40_exome,abraom,cosmic98_coding,icgc28,dbnsfp42a,clinvar  \
+   --protocol refGene,avsnp150,gnomad40_exome,abraom,cosmic98_coding,icgc28,dbnsfp42a,clinvar_20220320  \
    --operation gx,f,f,f,f,f,f,f --arg '-splicing 5',,,,,,, --polish \
    --xreffile $CROSS_REFERENCE --otherinfo --thread 5 --outfile $OUTPUT_DIR/annotation/annovar.norm 2> $OUTPUT_DIR/annotation/annovar.norm.log
 
