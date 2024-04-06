@@ -2,6 +2,7 @@
 #1. Ajustes das variaves de ambiente para facilitar na reexecução quando os diretorios forem atualizado
 #2. Alterado o diretorio onde estava o PON na scratch45 para /home/users/vlira/PanelOfNormals/PoN.100COVID.vcf.gz
 #3. Agora o script recebe 2 agumentos: 1- lista de amostras; 2- diretorio SCRATCH
+#4. Utualizado os databases: hg38_cosmic98_coding,hg38_avsnp150,hg38_clinvar_20220320, hg38_gnomad40_exome
 
 export SCRATCH60="/home/scratch60/vlira_15mar2024/"
 
@@ -161,9 +162,9 @@ annotation (){
    echo ">>>>>> Executando annovar para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
   
    $ANNOVAR  --vcfinput $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $ANNOVAR_DB -buildver hg38 --remove \
-   --protocol refGene,avsnp147,gnomad_exome,abraom,cosmic95,icgc28,dbnsfp42a  \
-   --operation gx,f,f,f,f,f,f --arg '-splicing 5',,,,,, --polish \
-   --xreffile $CROSS_REFERENCE --otherinfo --thread 15 --outfile $OUTPUT_DIR/annotation/annovar.norm 2> $OUTPUT_DIR/annotation/annovar.norm.log
+   --protocol refGene,avsnp150,gnomad40_exome,abraom,cosmic98_coding,icgc28,dbnsfp42a,clinvar  \
+   --operation gx,f,f,f,f,f,f,f --arg '-splicing 5',,,,,,, --polish \
+   --xreffile $CROSS_REFERENCE --otherinfo --thread 5 --outfile $OUTPUT_DIR/annotation/annovar.norm 2> $OUTPUT_DIR/annotation/annovar.norm.log
 
    sed 's/\\x3b/;/g' $OUTPUT_DIR/annotation/annovar.norm.hg38_multianno.vcf| sed 's/\\x3d/=/g' > $OUTPUT_DIR/annotation/annovar.norm.hg38_multianno.correct.vcf 
 
@@ -173,10 +174,10 @@ annotation (){
   date >> $TIME_FILE
   echo ">>>>>> Executando SnpSift para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
   
-  java -jar -Xmx50G $SCRATCH/tools/snpEff/SnpSift.jar extractFields  "$OUTPUT_DIR"/annotation/annovar.norm.hg38_multianno.correct.vcf \
-    -e . "CHROM" "POS" "ID" "REF" "ALT" "FILTER" "AC" "AN" "DP" "Func.refGene" "Gene.refGene" "GeneDetail.refGene" "ExonicFunc.refGene" "AAChange.refGene" \
-    "COSMIC_Census_Gene.refGene" "Role_in_Cancer.refGene" "Translocation_Partner.refGene" "Therapeutic_Agents.refGene" "Cancer_Syndromes.refGene" \
-    "panel.refGene" "gnomAD_exome_ALL" "abraom_freq" "cosmic95" "ICGC_Id" "GEN[*].GT"  > "$OUTPUT_DIR"/Final.mutect2.txt 2> "$OUTPUT_DIR"/Final.mutect2.log
+  # java -jar -Xmx50G $SCRATCH/tools/snpEff/SnpSift.jar extractFields  "$OUTPUT_DIR"/annotation/annovar.norm.hg38_multianno.correct.vcf \
+  #   -e . "CHROM" "POS" "ID" "REF" "ALT" "FILTER" "AC" "AN" "DP" "Func.refGene" "Gene.refGene" "GeneDetail.refGene" "ExonicFunc.refGene" "AAChange.refGene" \
+  #   "COSMIC_Census_Gene.refGene" "Role_in_Cancer.refGene" "Translocation_Partner.refGene" "Therapeutic_Agents.refGene" "Cancer_Syndromes.refGene" \
+  #   "panel.refGene" "gnomAD_exome_ALL" "abraom_freq" "cosmic95" "ICGC_Id" "GEN[*].GT"  > "$OUTPUT_DIR"/Final.mutect2.txt 2> "$OUTPUT_DIR"/Final.mutect2.log
 
   echo "" >> $TIME_FILE
 
@@ -204,11 +205,11 @@ date >> $TIME_FILE
 #mkdir $OUTPUT_DIR/FilterMutectCalls/
 #xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
 
-mkdir $OUTPUT_DIR/left_normalization/
-xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
+# mkdir $OUTPUT_DIR/left_normalization/
+# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
 
-# mkdir $OUTPUT_DIR/annotation/
-# #annotation
+mkdir $OUTPUT_DIR/annotation/
+annotation
 
 
 echo "" >> $TIME_FILE
