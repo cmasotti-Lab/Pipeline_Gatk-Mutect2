@@ -36,8 +36,8 @@ mkdir ${SCRATCH}
 export DATA=$(date "+%F")
 
 export DATA="2024-04-03"  # EDITE AQUI SE QUISER USAR UMA PASTA DE UMA DATA ESPECIFICA
-export MEM=200
-export JOBS=5
+export MEM=100
+export JOBS=2
 
 export OUTPUT_DIR=${SCRATCH}"/Result_Mutect2.ROP.toPureCN.${DATA}"
 
@@ -177,33 +177,27 @@ annotation (){
 
   # Merge all genotyped samples to get a single VCF/BCF using bcftools merge
   echo "" >> $TIME_FILE
-  local TIME=date
-  echo "${TIME} >>>>>> Executando Vcftools para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
+  echo ">>>>>> Executando Vcftools para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
   date >> $TIME_FILE
   
   local SAMPLE_CALL_GENO=$(find "$OUTPUT_DIR"/left_normalization/ -maxdepth 1 -mindepth 1  -name '*.norm_Step2.vcf.gz')
 
-  #bcftools merge -m id -O z -o $OUTPUT_DIR/annotation/mutect.merged.vcf $SAMPLE_CALL_GENO 2> $OUTPUT_DIR/annotation/mutect.merged.log
-  #bcftools index "$OUTPUT_DIR/annotation/mutect.merged.vcf"
+  # bcftools merge -m id -O z -o $OUTPUT_DIR/annotation/mutect.merged.vcf $SAMPLE_CALL_GENO 2> $OUTPUT_DIR/annotation/mutect.merged.log
+  # bcftools index "$OUTPUT_DIR/annotation/mutect.merged.vcf"
 
-  #vcf-merge $SAMPLE_CALL_GENO > $OUTPUT_DIR/annotation/mutect.merged2.vcf 2> $OUTPUT_DIR/annotation/mutect.merged2.log
-  #bcftools index "$OUTPUT_DIR/annotation/mutect.merged2.vcf"
-
-
-  bcftools norm -m-both -O z -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.vcf 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.log
-  bcftools norm -O z -f $REF_FASTA/Homo_sapiens_assembly38.fasta -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.log
-  bcftools index $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz
+  # bcftools norm -m-both -O z -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.vcf 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.log
+  # bcftools norm -O z -f $REF_FASTA/Homo_sapiens_assembly38.fasta -o $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $OUTPUT_DIR/annotation/mutect.merged.norm_Step1.vcf.gz 2> $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.log
+  # bcftools index $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz
 
 
   # # annovar
    echo "" >> $TIME_FILE
-   local TIME=date
-   echo "${TIME} >>>>>> Executando annovar para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
+   echo ">>>>>> Executando annovar para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
   
    $ANNOVAR  --vcfinput $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $ANNOVAR_DB -buildver hg38 --remove \
-   --protocol refGene,avsnp147,gnomad_exome,abraom,cosmic95,icgc28,dbnsfp42a  \
-   --operation gx,f,f,f,f,f,f --arg '-splicing 5',,,,,, --polish \
-   --xreffile $CROSS_REFERENCE --otherinfo --thread 15 --outfile $OUTPUT_DIR/annotation/annovar.norm 2> $OUTPUT_DIR/annotation/annovar.norm.log
+   --protocol refGene,avsnp150,gnomad40_exome,abraom,cosmic98_coding,icgc28,dbnsfp42a,clinvar_20220320  \
+   --operation gx,f,f,f,f,f,f,f --arg '-splicing 5',,,,,,, --polish \
+   --xreffile $CROSS_REFERENCE --otherinfo --thread 5 --outfile $OUTPUT_DIR/annotation/annovar.norm 2> $OUTPUT_DIR/annotation/annovar.norm.log
 
    sed 's/\\x3b/;/g' $OUTPUT_DIR/annotation/annovar.norm.hg38_multianno.vcf| sed 's/\\x3d/=/g' > $OUTPUT_DIR/annotation/annovar.norm.hg38_multianno.correct.vcf 
 
@@ -211,13 +205,12 @@ annotation (){
   
 
   date >> $TIME_FILE
-  local TIME=date
-  echo "${TIME} >>>>>> Executando SnpSift para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
+  echo ">>>>>> Executando SnpSift para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
   
-  java -jar -Xmx50G $SCRATCH60/tools/snpEff/SnpSift.jar extractFields  "$OUTPUT_DIR"/annotation/annovar.norm.hg38_multianno.correct.vcf \
-    -e . "CHROM" "POS" "ID" "REF" "ALT" "FILTER" "AC" "AN" "DP" "Func.refGene" "Gene.refGene" "GeneDetail.refGene" "ExonicFunc.refGene" "AAChange.refGene" \
-    "COSMIC_Census_Gene.refGene" "Role_in_Cancer.refGene" "Translocation_Partner.refGene" "Therapeutic_Agents.refGene" "Cancer_Syndromes.refGene" \
-    "panel.refGene" "gnomAD_exome_ALL" "abraom_freq" "cosmic95" "ICGC_Id" "GEN[*].GT"  > "$OUTPUT_DIR"/Final.mutect2.txt 2> "$OUTPUT_DIR"/Final.mutect2.log
+  # java -jar -Xmx50G $SCRATCH/tools/snpEff/SnpSift.jar extractFields  "$OUTPUT_DIR"/annotation/annovar.norm.hg38_multianno.correct.vcf \
+  #   -e . "CHROM" "POS" "ID" "REF" "ALT" "FILTER" "AC" "AN" "DP" "Func.refGene" "Gene.refGene" "GeneDetail.refGene" "ExonicFunc.refGene" "AAChange.refGene" \
+  #   "COSMIC_Census_Gene.refGene" "Role_in_Cancer.refGene" "Translocation_Partner.refGene" "Therapeutic_Agents.refGene" "Cancer_Syndromes.refGene" \
+  #   "panel.refGene" "gnomAD_exome_ALL" "abraom_freq" "cosmic95" "ICGC_Id" "GEN[*].GT"  > "$OUTPUT_DIR"/Final.mutect2.txt 2> "$OUTPUT_DIR"/Final.mutect2.log
 
   echo "" >> $TIME_FILE
 
