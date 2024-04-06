@@ -12,7 +12,7 @@ if [ "$#" -eq 2 ]; then
     export SCRATCH="${2}/vlira_15mar2024/"
 else
     # Valores definidos por padrão
-    export SAMPLE_LIST="${SCRATCH60}/samples.lists/samples.list"
+    export SAMPLE_LIST="${SCRATCH60}/samples.lists/samples.list.bam"
     export SCRATCH=${SCRATCH60}
 fi
 
