@@ -165,7 +165,7 @@ left_normalization () {
   echo "${TIME} >>>>>> Executando Normalization para Amostra: "$NAME" <<<" >> $TIME_FILE
   date >> $TIME_FILE
 
-    bcftools norm -m-both -O z -o $OUTPUT_DIR/left_normalization/$NAME.norm_Step1.vcf.gz $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf.gz 2> $OUTPUT_DIR/left_normalization/$NAME.norm_Step1.log
+    bcftools norm -m-both -O z -o $OUTPUT_DIR/left_normalization/$NAME.norm_Step1.vcf.gz $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf 2> $OUTPUT_DIR/left_normalization/$NAME.norm_Step1.log
     bcftools norm -O z -f $REF_FASTA/Homo_sapiens_assembly38.fasta -o $OUTPUT_DIR/left_normalization/$NAME.norm_Step2.vcf.gz $OUTPUT_DIR/left_normalization/$NAME.norm_Step1.vcf.gz 2> $OUTPUT_DIR/left_normalization/$NAME.norm_Step2.log
     bcftools index $OUTPUT_DIR/left_normalization/$NAME.norm_Step2.vcf.gz
 
