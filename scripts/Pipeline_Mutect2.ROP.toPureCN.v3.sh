@@ -240,7 +240,7 @@ mkdir $OUTPUT_DIR/left_normalization/
 xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'
 
 mkdir $OUTPUT_DIR/annotation/
- #annotation
+annotation
 
 
 echo "" >> $TIME_FILE
