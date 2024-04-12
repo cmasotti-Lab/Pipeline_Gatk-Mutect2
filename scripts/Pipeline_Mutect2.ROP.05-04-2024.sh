@@ -6,13 +6,20 @@
 
 export SCRATCH60="/home/scratch60/vlira_15mar2024/"
 
-# Verifica se dois argumentos foram passados
-if [ "$#" -eq 2 ]; then
+
+# Verifica o primeiro argumento
+if [ -n "$1" ]; then
     export SAMPLE_LIST=${1}
+else
+    # Valor padrão para SAMPLE_LIST se o primeiro argumento não foi fornecido
+    export SAMPLE_LIST="${SCRATCH60}/samples.lists/samples.list.bam"
+fi
+
+# Verifica o segundo argumento
+if [ -n "$2" ]; then
     export SCRATCH="${2}/vlira_15mar2024/"
 else
-    # Valores definidos por padrão
-    export SAMPLE_LIST="${SCRATCH60}/samples.lists/samples.list.bam"
+    # Valor padrão para SCRATCH se o segundo argumento não foi fornecido
     export SCRATCH=${SCRATCH60}
 fi
 
@@ -206,6 +213,8 @@ date >> $TIME_FILE
 
 mkdir $OUTPUT_DIR/annotation/
 annotation
+
+cut -f 1-18,36,38,42,45,48,83,111,148,152-249 $OUTPUT_DIR/annotation/annovar.norm.hg38_multianno.txt > $OUTPUT_DIR/all.snv.annotated.tsv
 
 
 echo "" >> $TIME_FILE
