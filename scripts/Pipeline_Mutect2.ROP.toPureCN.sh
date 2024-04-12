@@ -143,7 +143,7 @@ stage_FilterMutectCalls (){
         --contamination-table $OUTPUT_DIR/CalculateContamination/$NAME.calculatecontamination.table \
         --stats $OUTPUT_DIR/Mutect2/$NAME.unfiltered.vcf.gz.stats \
         --ob-priors "$OUTPUT_DIR"/LearnReadOrientationModel/read-orientation-model.tar.gz \
-        -O $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf  2> $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf.log
+        -O $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf.gz  2> $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf.log
 }
 export -f stage_FilterMutectCalls
 

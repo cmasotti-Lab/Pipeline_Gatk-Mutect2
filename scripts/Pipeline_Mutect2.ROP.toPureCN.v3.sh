@@ -151,7 +151,7 @@ stage_FilterMutectCalls (){
         --contamination-table $OUTPUT_DIR/CalculateContamination/$NAME.calculatecontamination.table \
         --stats $OUTPUT_DIR/Mutect2/$NAME.unfiltered.vcf.gz.stats \
         --ob-priors "$OUTPUT_DIR"/LearnReadOrientationModel/read-orientation-model.tar.gz \
-        -O $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf  2> $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf.log
+        -O $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf.gz  2> $OUTPUT_DIR/FilterMutectCalls/$NAME.filtered.vcf.log
 }
 export -f stage_FilterMutectCalls
 
@@ -197,13 +197,12 @@ annotation (){
    $ANNOVAR  --vcfinput $OUTPUT_DIR/annotation/mutect.merged.norm_Step2.vcf.gz $ANNOVAR_DB -buildver hg38 --remove \
    --protocol refGene,avsnp150,gnomad40_exome,abraom,cosmic98_coding,icgc28,dbnsfp42a,clinvar_20220320  \
    --operation gx,f,f,f,f,f,f,f --arg '-splicing 5',,,,,,, --polish \
-   --xreffile $CROSS_REFERENCE --otherinfo --thread 5 --outfile $OUTPUT_DIR/annotation/annovar.norm 2> $OUTPUT_DIR/annotation/annovar.norm.log
+   --xreffile $CROSS_REFERENCE --otherinfo --thread 10 --outfile $OUTPUT_DIR/annotation/annovar.norm 2> $OUTPUT_DIR/annotation/annovar.norm.log
 
    sed 's/\\x3b/;/g' $OUTPUT_DIR/annotation/annovar.norm.hg38_multianno.vcf| sed 's/\\x3d/=/g' > $OUTPUT_DIR/annotation/annovar.norm.hg38_multianno.correct.vcf 
 
    date >> $TIME_FILE
   
-
   date >> $TIME_FILE
   echo ">>>>>> Executando SnpSift para todas juntar os vcf das amostras<<<<<<" >> $TIME_FILE
   
@@ -228,14 +227,14 @@ date >> $TIME_FILE
 #mkdir $OUTPUT_DIR/LearnReadOrientationModel/
 #stage_LearnReadOrientationModel
 
-mkdir $OUTPUT_DIR/GetPileupSummaries/
-xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
+# mkdir $OUTPUT_DIR/GetPileupSummaries/
+# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_GetPileupSummaries  "$@"' 'stage_GetPileupSummaries'
 
-mkdir $OUTPUT_DIR/CalculateContamination/
-xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
+# mkdir $OUTPUT_DIR/CalculateContamination/
+# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_CalculateContamination  "$@"' 'stage_CalculateContamination'
 
-mkdir $OUTPUT_DIR/FilterMutectCalls/
-xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
+# mkdir $OUTPUT_DIR/FilterMutectCalls/
+# xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'stage_FilterMutectCalls  "$@"' 'stage_FilterMutectCalls'
 
 mkdir $OUTPUT_DIR/left_normalization/
 xargs -a ${SAMPLE_LIST} -t -n1 -P${JOBS} bash -c 'left_normalization  "$@"' 'left_normalization'

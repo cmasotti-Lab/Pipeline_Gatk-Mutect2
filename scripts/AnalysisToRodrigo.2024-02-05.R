@@ -609,9 +609,9 @@ samples<-unique(sampleTableCount.Clinical$SAMPLE)
 dir.create(paste0(output,"mutations_to_filter_fromVCF/"))
 
 for (sp in samples) {
-  BED<-subset(somatic.52, SAMPLE==sp, select = c("CHR", "POS","REF","ALT","index"))
+  BED<-subset(somatic.52, SAMPLE==sp, select = c("CHR","POS","POS","REF","ALT","index"))
   BED<-unique(BED)
-  #fwrite(BED,paste0(output,"mutations_to_filter_fromVCF/",sp,".bed"), sep = "\t", col.names = T, row.names = F, quote = F)
+  fwrite(BED,paste0(output,"mutations_to_filter_fromVCF/",sp,".bed"), sep = "\t", col.names = T, row.names = F, quote = F)
 }
 
 
@@ -1194,3 +1194,90 @@ for (col.var in col.vars) {
   }
 }
 
+
+#==============================================================================#
+# PATHOGENICITY MUTATIONS ####
+#==============================================================================#
+library(dplyr)
+
+# Listar todos os arquivos TXT no diretório
+arquivos <- list.files(path = paste(output, "mutations_annotation/", sep = ""), pattern = "\\.txt$", full.names = TRUE)
+
+# Inicializar uma lista para armazenar os dataframes
+lista_dataframes <- list()
+
+# Carregar cada arquivo TXT e adicionar uma coluna com o nome do arquivo
+for (arquivo in arquivos) {
+  df <- read.table(arquivo, header = TRUE, sep = "\t", fill = TRUE, quote = "")
+  
+  # Extrair o nome do arquivo (sem o caminho e a extensão)
+  nome_arquivo <- tools::file_path_sans_ext(basename(arquivo))
+  
+  # Substituir o padrão ".hg38_multianno" por uma string vazia
+  nome_arquivo <- gsub("\\.hg38_multianno", "", nome_arquivo)
+  
+  # Adicionar a coluna nome_arquivo ao dataframe
+  df$Sample <- nome_arquivo
+  
+  # Converter colunas numéricas para character
+  colunas_numericas <- sapply(df, is.numeric)
+  nomes_colunas_numericas <- names(df)[colunas_numericas]
+  
+  for (coluna in nomes_colunas_numericas) {
+    df[[coluna]] <- as.character(df[[coluna]])
+  }
+  
+  # Armazenar o dataframe na lista usando o nome do arquivo como chave
+  lista_dataframes[[nome_arquivo]] <- df
+}
+
+# Combina todos os dataframes em um único dataframe
+dataframe_completo <- bind_rows(lista_dataframes)
+
+
+
+
+hist(as.numeric(dataframe_completo$MetaRNN_score))
+dataframe_completo$MetaRNN_score<-as.numeric(dataframe_completo$MetaRNN_score)
+# Plotar a densidade da variável agrupada por amostra
+ggplot(dataframe_completo, aes(x = MetaRNN_score, fill = Sample)) +
+  geom_col() +
+  facet_wrap(vars(Sample))+
+  labs(title = "MetaRNN_score by sample", x = "Variável", y = "Densidade") +
+  theme_minimal()+
+  theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position="none")
+
+
+aux1 <- dplyr::select((dataframe_completo), Sample, MetaRNN_score)
+aux2 <- as.data.frame(table(aux1), stringsAsFactors = F)
+aux2$MetaRNN_score <- as.double(aux2$MetaRNN_score)
+aux2 <- merge(aux2, sampleTableCount.Clinical[,c("SAMPLE","ID_Exoma","ClinicalOutcome")], by.x= "Sample", by.y= "SAMPLE", all.x = T)
+
+# MAFs das amostras outliers    ####
+#==============================================================================#
+ggplot(dataframe_completo, aes(x = MetaRNN_score, fill = Sample)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(vars(Sample))+
+  labs(title = "MetaRNN_score by sample", x = "Variável", y = "Densidade") +
+  theme_minimal()+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position="none")
+
+ggplot(dataframe_completo, aes(x = Sample, fill = MetaRNN_pred)) +
+  geom_bar( position = "fill") +
+  labs(title = "MetaRNN_score by sample", x = "Sample", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        legend.position = "left")
+
+ggplot(rop107, aes(x = Sample, fill = MetaRNN_pred)) +
+  geom_bar() +
+  labs(title = "MetaRNN_score by sample", x = "Sample", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        legend.position = "left")
+
+ggplot(rop107, aes(x = Sample, fill = MetaRNN_pred)) +
+  geom_bar(position = "dodge") +
+  labs(title = "MetaRNN_score by sample", x = "Sample", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        legend.position = "left")
