@@ -6,7 +6,8 @@ export CRAM_DIR="$WD/samples/"
 export CRAM_FILES=$(find "$CRAM_DIR" -maxdepth 1 -mindepth 1  -name '*.cram' )
 export REF_FASTA="$WD/reference/"
 export GATK="$WD/gatk-4.3.0.0/./gatk"
-export TARGET="$WD/reference/xgen-exome-research-panel-v2-targets-hg38.bed"
+#export TARGET="$WD/reference/xgen-exome-research-panel-v2-targets-hg38.bed"   # usado para criar _2024/
+export TARGET="$WD/reference/baits_optimized_hg38.bed"
 
 export OUTPUT_DIR="RESULT_PON-GATK4.3_Mutect2.ToPureCN"
 mkdir $OUTPUT_DIR
@@ -21,7 +22,7 @@ export CRAM_LIST=$1
 
 
 
-echo "                                                     >>>>>> Starting Pipeline  to create PON Mutect2 <<<<<<" >> $TIME_FILE
+echo "                                            >>>>>> Starting Pipeline  to create PON Mutect2 <<<<<<" >> $TIME_FILE
 date >> $TIME_FILE
 
 
@@ -99,9 +100,9 @@ export -f DepthOfCoverage
 #done
 # xargs -a /home/venus/mar/vlira/samples.55.list -t -n1 -P2 bash -c 'STAGE_Mutect2  "$@"' 'STAGE_Mutect2'
 
-#STAGE_GenomicsDB
+STAGE_GenomicsDB
 
-#STAGE_CreateSomaticPanelOfNormals
+STAGE_CreateSomaticPanelOfNormals
 
 mkdir $OUTPUT_DIR/DepthOfCoverage
 xargs -a /home/venus/mar/vlira/samples.list -t -n1 -P3 bash -c 'DepthOfCoverage  "$@"' 'DepthOfCoverage'
@@ -114,49 +115,30 @@ echo "" >> $TIME_FILE
 
 
 
-mkdir $OUTPUT_DIR/DepthOfCoverage
- $GATK DepthOfCoverage  \
-       -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
-       -I /home/venus/mar/vlira/samples/C029228-ExC89-xgenV2.hg38.final.cram \
-       -L $TARGET \
-       --output-format TABLE \
-       --interval-merging-rule OVERLAPPING_ONLY \
-       -O /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1 2> /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1.log
+# mkdir $OUTPUT_DIR/DepthOfCoverage
+#  $GATK DepthOfCoverage  \
+#        -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
+#        -I /home/venus/mar/vlira/samples/C029228-ExC89-xgenV2.hg38.final.cram \
+#        -L $TARGET \
+#        --output-format TABLE \
+#        --interval-merging-rule OVERLAPPING_ONLY \
+#        -O /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1 2> /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1.log
 
 
-$GATK DepthOfCoverage  \
-       -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
-       -I /home/venus/mar/vlira/samples/C029228-ExC89-xgenV2.hg38.final.cram \
-       -L /home/venus/mar/vlira/baits_hg38_intervals.txt \
-       --output-format TABLE \
-       --interval-merging-rule OVERLAPPING_ONLY \
-       -O /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1.baits 2> /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1.baits.log &
+# $GATK DepthOfCoverage  \
+#        -R $REF_FASTA/Homo_sapiens_assembly38.fasta \
+#        -I /home/venus/mar/vlira/samples/C029228-ExC89-xgenV2.hg38.final.cram \
+#        -L /home/venus/mar/vlira/baits_hg38_intervals.txt \
+#        --output-format TABLE \
+#        --interval-merging-rule OVERLAPPING_ONLY \
+#        -O /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1.baits 2> /home/venus/mar/vlira/DepthOfCoverage/gakt-4.2.6.1.baits.log &
 
 
-export WD="/home/scratch60/vlira_18jan2024/"
-${WD}/tools/gatk-4.3.0.0/./gatk  DepthOfCoverage  \
-       -R /home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/Homo_sapiens_assembly38.fasta \
-       -I ${WD}/PureCN_Docker/NORMAL/C028869-ExC69-xgenV1.hg38.final.cram \
-       -L ${WD}/PureCN_Docker/reference_files/xgen-exome-research-panel-v2-targets-hg38.bed \
-       --output-format TABLE \
-       --interval-merging-rule OVERLAPPING_ONLY \
-       -O ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.depth > ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.depth.erro 2> ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.depth.log &
-
-export WD="/home/scratch60/vlira_18jan2024/"
-${WD}/tools/gatk-4.3.0.0/./gatk
-java -jar   /home/tools/manual/GATK-3.7.0/GenomeAnalysisTK.jar -T DepthOfCoverage  \
-       -R /home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/Homo_sapiens_assembly38.fasta \
-       -I ${WD}/PureCN_Docker/NORMAL/C028869-ExC69-xgenV1.hg38.final.cram \
-       -L ${WD}/PureCN_Docker/reference_files/xgen-exome-research-panel-v2-targets-hg38.bed        -ct 1 \
-       -o ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.ct1 > ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.ct1.erro 2> ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.ct1.log &
-
-
-#SAMPLE ROP-100 BAM PARA USAR TESTE NORMAL
-export WD="/home/scratch60/vlira_18jan2024/"
-${WD}/tools/gatk-4.3.0.0/./gatk  DepthOfCoverage  \
-       -R /home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/Homo_sapiens_assembly38.fasta \
-       -I /home/scratch60/rtorreglosa_26apr2024/preprocessing_READ_result/ROP-100-ExC85-xgenV2_S67.dedup.bam \
-       -L ${WD}/PureCN_Docker/reference_files/xgen-exome-research-panel-v2-targets-hg38.bed \
-       --output-format TABLE \
-       --interval-merging-rule OVERLAPPING_ONLY \
-       -O ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/ROP-100-ExC85-xgenV2_S67.dedup.bam.depth > ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/ROP-100-ExC85-xgenV2_S67.dedup.bam.erro 2> ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/ROP-100-ExC85-xgenV2_S67.dedup.bam.log &
+# export WD="/home/scratch60/vlira_18jan2024/"
+# ${WD}/tools/gatk-4.3.0.0/./gatk  DepthOfCoverage  \
+#        -R /home/projects2/LIDO/molPathol/oncoseek/nextseq/hg38/Homo_sapiens_assembly38.fasta \
+#        -I ${WD}/PureCN_Docker/NORMAL/C028869-ExC69-xgenV1.hg38.final.cram \
+#        -L ${WD}/PureCN_Docker/reference_files/xgen-exome-research-panel-v2-targets-hg38.bed \
+#        --output-format TABLE \
+#        --interval-merging-rule OVERLAPPING_ONLY \
+#        -O ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.depth > ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.depth.erro 2> ${WD}/PureCN_Docker/NORMAL/DepthOfCoverage2/C028869-ExC69-xgenV1.hg38.final.cram.depth.log &
