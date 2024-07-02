@@ -1,7 +1,7 @@
 ### VLIRA FEV2024 ####
 ### Pipeline de indentificacao de mutacoes somaticas usando Mutect2 ###
 # ==============================================================================#
-# Na versão anterior (2023-09-26) faltava excluir mutações na lista de HLA
+# Na versão anterior (2023-06-17) faltava excluir mutações na lista de HLA
 # Apliquei os filtros:
 # gnomAD: 0.005
 # Abraom: 0.005
@@ -18,9 +18,11 @@
 # MAS AINDA NÃO CONSEGUI CORRIGIR O DNDS_CV PARA OLHAR APENAS AS TARGETS DO EXOMA
 # Decidi usar o dndsout2,  (Chr,Start,Ref,Alt) e GencodeV18
 # ONCOPLOT agora mostras as mutaçoes sinonimas
-
 # Fisher Test (dnds_genes, dMMR, drivers)
 # Calcula Curva ROC do TMB e MATH_score para Resposta1
+
+# Reanalise dos dados, avaliando apenas as mutaçoes da coorte de 72 amostras
+# 
 
 #==============================================================================#
 
@@ -31,19 +33,18 @@ library(tidyr)
 library(stringr)
 library(ggplot2)
 library(devtools)
-library(dndscv)
 library(ggpubr)
 library(xlsx)
 library(maftools)
 library(pheatmap)
 library(pROC)
-
+library(devtools); install_github("im3sanger/dndscv")
 
 wd <- "D:/PROJETOS-HSL_BP/resultados_Mutect2-2023/"
 # wd <- "/media/vande/HDD/PROJETOS-HSL_BP/resultados_Mutect2-2023/"
 setwd(wd)
-dir.create("output-Mutect2_SomaticFilters.2024-02-05")
-output <- "output-Mutect2_SomaticFilters.2024-02-05/"
+dir.create("output-Mutect2_SomaticFilters.2024-06-17")
+output <- "output-Mutect2_SomaticFilters.2024-06-17/"
 
 #==============================================================================#
 # STEP 0 -  Datasets reorganization ####
@@ -54,7 +55,7 @@ samples_ID <-fread("input_Somatic-Filter/sampleID.list", header = F)
 
 # Selecting main columns
 #==============================================================================#
-snps.flt<- select(snps, c(1:5, ends_with('.refGene'),"gnomAD_exome_ALL",starts_with("abraom"),"cosmic95", starts_with("ICGC"),"Interpro_domain", starts_with("Otherinf") ))
+snps.flt<-dplyr::select(snps, c(1:5, ends_with('.refGene'),"gnomAD_exome_ALL",starts_with("abraom"),"cosmic95", starts_with("ICGC"),"Interpro_domain", starts_with("Otherinf") ))
 colnames(snps.flt) <-  c( colnames(snps.flt[,c(1:23)]),"Otherinfo1","Otherinfo2","Otherinfo3","CHR","POS","ID","REF","ALT","QUAL","FILTER", "INFO", "FORMAT", 
                           samples_ID$V1)
 
@@ -62,9 +63,9 @@ colnames(snps.flt) <-  c( colnames(snps.flt[,c(1:23)]),"Otherinfo1","Otherinfo2"
 #==============================================================================#
 snps.flt$index <- paste(snps.flt$CHR, snps.flt$POS, snps.flt$REF, snps.flt$ALT, sep="_")
 exCol=colnames(snps.flt[,-which(names(snps.flt) %in% c("Otherinfo1","Otherinfo2","Otherinfo3","ID","index"))])
-snps.flt <- select(snps.flt, index,all_of(exCol))
+snps.flt <- dplyr::select(snps.flt, index,all_of(exCol))
 dim(snps.flt)   #371253 
-# fwrite(snps.flt, paste0(output,"/tab0.tsv"), quote = F, sep="\t")
+fwrite(snps.flt, paste0(output,"/tab0.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
 #                 STEP 1 - Clear dataset ####
@@ -75,7 +76,7 @@ tab1<- snps.flt
 ## Select mutations "PASS" from Mutect2 ###
 #==============================================================================#
 # salva as NOT PASS em uma tabela
-# fwrite(subset(tab1, FILTER != "PASS"), paste0(output,"/mutation-ALL-notPASS.tsv"), quote = F, sep="\t")
+fwrite(subset(tab1, FILTER != "PASS"), paste0(output,"/mutation-ALL-notPASS.tsv"), quote = F, sep="\t")
 tab1 = subset(tab1, FILTER == "PASS")
 dim(tab1)   #59957            
 
@@ -88,13 +89,25 @@ tab1 <- reshape2::melt(tab1,id=colnames(tab1[,1:which(names(tab1)== "FORMAT")]))
 tab1 <- tab1[!grepl("^./.:.:.:", tab1$value),]
 tab1 <- tab1[!grepl("^0/0", tab1$value),]
 tab1 <- tab1[!grepl("^0\\|0", tab1$value),]
-# fwrite(tab1, paste0(output,"/tab1.tsv"), quote = F, sep="\t")
+
+## Remover amostras clinicas excluidas ###
+#==============================================================================#
+samples.excl <- c("ROP-116","ROP-118","ROP-120","ROP-121","ROP-122","ROP-123","ROP-125","ROP-126","ROP-127","ROP-130","ROP-131","ROP-132","ROP-23","ROP-84")
+# Format the SAMPLE info 
+tab1$EXOME_ID <- tab1$variable
+tab1<- separate(data= tab1, col=EXOME_ID, into=c("EXOME_ID"), sep = "-ExC85")
+length(unique(tab1$EXOME_ID))
+tab1 <- subset(tab1, (!EXOME_ID %in% samples.excl))
+length(unique(tab1$EXOME_ID))
+length(unique(tab1$index))   # 56041         
+
+fwrite(tab1, paste0(output,"/tab1.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
 #             STEP 2 - Restructure and filter the tables ####
 #==============================================================================#
 # tab1<-as.data.frame(fread(paste0(output,"/tab1.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
-length(unique(tab1$index))   #59957         
+length(unique(tab1$index))   #56041         
 
 ## Separate genotype info ("GT","AD","AF","DP","F1R2","F2R1","FAD") ###
 #==============================================================================#
@@ -108,6 +121,9 @@ tab2<-cbind(tab2, read.table(text = as.character(tab2$aux), sep = "|"))
 names(tab2)[c(ncol(tab2)-1,ncol(tab2))] <- c('GT1','GT2')
 tab2<- subset(tab2, select= -c(aux))
 setDT(tab2)[,paste0("AD", 1:2) := tstrsplit(AD, ",")]
+table(tab2$GT)
+# 0/1   0|1   1|0 
+# 56716  5730   405 
 
 ## Clear memory ###
 #==============================================================================#
@@ -125,20 +141,23 @@ colnames(tab2)[colnames(tab2) == "variable"] <- "SAMPLE"
 aux <- data.frame(table(tab2$index))
 tab2 <- merge(tab2, aux, by.x = "index", by.y = "Var1")
 colnames(tab2)[names(tab2)=="Freq"]<-"MUTATION_shared"
-nrow(unique(tab2[,"index"]))                   #59957
-# fwrite(tab2, paste0(output,"/tab2.mutation-ALL.tsv"), quote = F, sep="\t")
+nrow(as.data.frame(unique(tab2[,"index"])))       #  56041->72amostras
+length(unique(tab2$SAMPLE))
+fwrite(tab2, paste0(output,"/tab2.mutation-ALL.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
 ##  QUANTIFICANDO MUTAÇÕES DO ALL MUTECT ANTES DE APLICAR FILTROS POPULATIONAL  ####
 #==============================================================================#
+all <- tab2
 all<-as.data.frame(fread(paste0(output,"tab2.mutation-ALL.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
-length(unique(all[,"index"]))                   #59957
+length(unique(all[,"index"]))                   #  56041->72amostras
+length(unique(all$SAMPLE))
 
 # Quantify mutation in HLA genes
 #==============================================================================#
 genesHLA <- fread("input_Somatic-Filter/genesHLA.txt", col.names = "gene", header = F) 
 all.hla<- subset(all, (Gene.refGene %in% genesHLA$gene))
-length(unique(all.hla$index))    #37 mut em HLA
+length(unique(all.hla$index))    #33 mut em HLA
 
 # Quantificando regiões das mutações
 #==============================================================================#
@@ -153,23 +172,34 @@ as.data.frame(table(aux$ExonicFunc.refGene))
 # Quantificando mutações compartilhadas >=2
 #==============================================================================#
 shared2exclude <- which((all$MUTATION_shared >= 2) )
-length(unique(all[shared2exclude,"index"]))  #3048 
-
-# Quantificando mutações compartilhadas >=2, Quantas são em genes drivers? 
-#==============================================================================#
-dgenes<-fread("input_Somatic-Filter/driver-genes.txt", header = F, col.names = "gene")
-shared2exclude <- which((all$MUTATION_shared >= 2) & (all$Gene.refGene %in% dgenes$gene))
-length(unique(all[shared2exclude,"index"]))  #44 
+length(unique(all[shared2exclude,"index"]))  #  2673
 
 # Quantificando Distribuição da COV
 #==============================================================================#
 aux<-(unique(all[,c("index", "COV")]))  
 summary(aux$COV)
 
+aux1<-as.data.frame(table(all$COV), stringsAsFactors = F)
+aux1$Var1<-as.numeric(aux1$Var1)
+p<-ggplot(data=head(aux1, 500), aes(x=Var1, y=Freq))+
+  geom_col() + 
+  geom_vline(xintercept= 30, linetype="dashed", color = "red")+theme_classic()+
+  theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position="top")  
+gridExtra::grid.arrange(p, bottom="COV distribution, 56.041 Mutations from 72 samples")
+
+
 # Quantificando Distribuição  MAF 
 #==============================================================================#
 aux<-(unique(all[,c("index", "MAF")]))  
 summary(aux$MAF)
+
+aux1<-as.data.frame(table(all$MAF), stringsAsFactors = F)
+aux1$Var1<-as.numeric(aux1$Var1)
+p<-ggplot(data=aux1, aes(x=Var1, y=Freq))+
+  geom_col(width = .005) + 
+  geom_vline(xintercept= 0.2, linetype="dashed", color = "red")+ theme_classic()+
+  theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position="top")  
+gridExtra::grid.arrange(p, bottom="MAF distribution, 56.041 Mutations from 72 samples")
 
 #==============================================================================#
 #             STEP 3 - MARK Rare mutations ####
@@ -194,7 +224,14 @@ aux <- as.data.frame(lapply(all[,c("V_1","V_2","V_3","V_4","V_5")], function(y) 
 aux[is.na(aux)] <- 0
 all <- cbind(subset(all, select = -c(V_1,V_2,V_3,V_4,V_5)), aux)
 all$COSMIC_count <- rowSums(all[,c("V_1","V_2","V_3","V_4","V_5")])
-all <- select(all, !starts_with("V_"))
+all <- dplyr::select(all, !starts_with("V_"))
+
+# Quantificando mutações compartilhadas >=2, com menos de 3 registros no COSMIC? 
+#==============================================================================#
+dgenes<-fread("input_Somatic-Filter/driver-genes.txt", header = F, col.names = "gene")
+shared2exclude <- which((all$MUTATION_shared >= 2) & (all$COSMIC_OCCURENCE <= 3))
+length(unique(all[shared2exclude,"index"]))  #  338
+
 
 ## Classify mutations like (none, driver, dMMMR) 
 #==============================================================================#
@@ -211,27 +248,28 @@ all$class[all$Gene.refGene %in% dMMR$gene] <-"dMMR"
 ## Quantifica MUTAÇOES not-rare gnomAD
 #==============================================================================#
 not_rare2exclude <- which(all$freq_gnomAD_lower01=="not-rare")
-length(unique(all[not_rare2exclude,"index"]))   # 89
+length(unique(all[not_rare2exclude,"index"]))   #  81
 
 ## Quantifica MUTAÇOES not-rare no Abraom
 #==============================================================================#
 not_rareAbraom2exclude <- which(all$freq_abraom_status=="not-rare")
-length(unique(all[not_rareAbraom2exclude,"index"])) #205 
+length(unique(all[not_rareAbraom2exclude,"index"])) #  188
 
 ## FILTRO: REMOVE mutações not-rare no gnomAD ou Abraom ####
 #==============================================================================#
 all.x1 <- all[-c(not_rare2exclude,not_rareAbraom2exclude),]
-length(unique(all.x1$index)) 
-# fwrite(all.x1, paste0(output,"/mutation.popFilt.tsv"), quote = F, sep="\t")
+length(unique(all.x1$index))    # 55815
+fwrite(all.x1, paste0(output,"/mutation.popFilt.tsv"), quote = F, sep="\t")
 # all.x1<-as.data.frame(fread(paste0(output,"mutation.popFilt.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
 
 ## FILTRO: REMOVE mutações compartilhadas >=2 e <= 3 ocorencias no COSMIC ####
 #==============================================================================#
 shared2exclude <- which( all.x1$MUTATION_shared >= 2 & all.x1$COSMIC_count <= 3)
-length(unique(all.x1[shared2exclude,"index"]))  
+length(unique(all.x1[shared2exclude,"index"]))  #   2571
 all.xg <- all.x1[-shared2exclude,]  
-length(unique(all.xg[,"index"]))             
-# fwrite(all.xg, paste0(output,"/mutation.popFilt.shared_cosmic.tsv"), quote = F, sep="\t")
+length(unique(all.xg[,"index"]))             #  53244
+
+fwrite(all.xg, paste0(output,"/mutation.popFilt.shared_cosmic.tsv"), quote = F, sep="\t")
 all.mut <- data.frame(all.xg)
 
 #all.mut<-as.data.frame(fread(paste0(output,"mutation.popFilt.shared_cosmic.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
@@ -245,7 +283,7 @@ all.mut$COSMIC_count[all.mut$COSMIC_count>= 5] <- paste(all.mut$COSMIC_count[all
 #==============================================================================#
 genesHLA <- fread("input_Somatic-Filter/genesHLA.txt", col.names = "gene", header = F) 
 all.hla<- subset(all.mut, (Gene.refGene %in% genesHLA$gene))
-length(unique(all.hla$index))    # 35
+length(unique(all.hla$index))    #   31
 
 # Quantificando regiões das mutações
 #==============================================================================#
@@ -268,7 +306,7 @@ p<-ggplot(data=aux1, aes(x=Var1, y=Freq))+
   geom_col(width = .005) + 
   geom_vline(xintercept= 0.2, linetype="dashed", color = "red")+ theme_classic()+
   theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position="top")  
-gridExtra::grid.arrange(p, bottom="MAF distribution, from 85 samples")
+gridExtra::grid.arrange(p, bottom="MAF distribution, from 72 samples")
 
 # Quantificando Distribuição da COV 
 #==============================================================================#
@@ -283,38 +321,39 @@ p<-ggplot(data=head(aux1, 500), aes(x=Var1, y=Freq))+
   geom_col() + 
   geom_vline(xintercept= 30, linetype="dashed", color = "red")+theme_classic()+
   theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),legend.position="top")  
-gridExtra::grid.arrange(p, bottom="COV distribution, from 85 samples")
+gridExtra::grid.arrange(p, bottom="COV distribution, from 72 samples")
 
 
 ## FILTRO: REMOVE MUTACOES EM HLA ####
 #==============================================================================#
 genesHLA <- fread("input_Somatic-Filter/genesHLA.txt", col.names = "gene", header = F) 
 all.hla<- subset(all.mut, (Gene.refGene %in% genesHLA$gene))
-length(unique(all.hla$index))    # 35
+length(unique(all.hla$index))    #  31
 
 hla2exclude <- which(all.mut$Gene.refGene %in% genesHLA$gene) 
-length(unique(all.mut[hla2exclude,"index"]))  #  35
+length(unique(all.mut[hla2exclude,"index"]))  #   31
 all.mut2 <- all.mut[-hla2exclude,]
-length(unique(all.mut2$index))  #56751
+length(unique(all.mut2$index))  #   53213
 
 ## FILTRO: REMOVE MUTACOES  MINOR ALLELIC FREQ. < 0.20 ####
 #==============================================================================#
 maf2exclude <- which(all.mut2$MAF<0.20) 
-length(unique(all.mut2[maf2exclude,"index"]))  #  27136
+length(unique(all.mut2[maf2exclude,"index"]))  # 26223
 all.mut.maf <- all.mut2[-maf2exclude,]
-length(unique(all.mut.maf$index))  #29659
+length(unique(all.mut.maf$index))  # 27026
 
 ## FILTRO: REMOVE MUTACOES COV < 30 ####
 #==============================================================================#
 cov2exclude <- which(all.mut.maf$COV<30) 
-length(unique(all.mut.maf[cov2exclude,"index"]))  #  541
+length(unique(all.mut.maf[cov2exclude,"index"]))  #  510
 all.mut.cov <- all.mut.maf[-cov2exclude,]
-length(unique(all.mut.cov$index))  # 29119
+length(unique(all.mut.cov$index))  #  26517
 
 ## FILTRO: SELECT EXONIC AND SPLICING ####
+unique(all.mut.cov$Func.refGene)
 #==============================================================================#
 all.Coding <- subset(all.mut.cov, Func.refGene %in% c("splicing", "exonic", "exonic;splicing", "splicing;exonic"))
-length(unique(all.Coding$index))  #28978
+length(unique(all.Coding$index))  #28978  26393
 unique(all.Coding$Func.refGene)
 #34126765 - xGen Exome Research Panel V2 Target Regions
 Mb <- 34126765/1000000    
@@ -323,22 +362,50 @@ tmb <- as.data.frame(table(all.Coding$SAMPLE))
 names(tmb) <- c("SAMPLE", "N_Mutations_TMB")
 tmb$TMB <- round(tmb$N_Mutations/Mb,2)
 
-# fwrite(tmb, paste0(output,"/TMB.tsv"), quote = F, sep="\t")
-# fwrite(all.Coding, paste0(output,"/mutation_codRegion_Freq005.tsv"), quote = F, sep="\t")
+ fwrite(tmb, paste0(output,"/TMB.tsv"), quote = F, sep="\t")
+ fwrite(all.Coding, paste0(output,"/mutation_codRegion_Freq005.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
 #all.Coding<-as.data.frame(fread(paste0(output,"mutation_codRegion_Freq005.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
-aux<-(unique(all.Coding[,c("index", "ExonicFunc.refGene")]))  
-as.data.frame(table(aux$ExonicFunc.refGene))
 
-#  REMOVE MUTACOES CLASSIFICADAS COM SINONIMAS (synonymous SNV)   11218
+length(unique(all.Coding$index))  #  26393 mut
+length(unique(all.Coding$SAMPLE))  #  72 samples
+
+
+aux<-as.data.frame(unique(all.Coding[,c("index", "ExonicFunc.refGene")]))
+aux <- as.data.frame(table(aux$ExonicFunc.refGene))
+aux
+aux <- aux %>%
+  arrange(desc(Freq)) %>%
+  mutate(Var1 = factor(Var1, levels = unique(Var1)))
+colnames(aux) <- c("ExonicFunc", "count")
+aux$perc <- round((aux$count*100)/sum(aux$count), digits=2)
+
+# Create a horizontal bar plot with values in front of bars
+ggplot(data = aux, aes(x = ExonicFunc, y = count, fill = ExonicFunc)) +
+  geom_bar(stat = "identity",position = "stack", color = "black") +
+  geom_text(aes(label = count, y = 15000), hjust = -0.1, color = "black") +
+  geom_text(aes(label = paste0(perc,"%"), y = 12000), hjust = -0.1, color = "black") +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Count of Distinct ExonicFunc Mutation Types", x = "ExonicFunc Mutation Type", y = "Count") +
+  scale_fill_grey(start = 0.8, end = 0.2)+
+  theme(legend.position = "none") 
+
+#  REMOVE MUTACOES CLASSIFICADAS COM SINONIMAS (synonymous SNV)    6805
 #==============================================================================#
 somatic = subset(all.Coding, !(ExonicFunc.refGene %in% c("synonymous SNV")))
-length(unique(somatic[,"index"]))     # 21399
+length(unique(somatic[,"index"]))     #  19588
+aux<-as.data.frame(unique(somatic[,c("index", "SAMPLE")]))
+aux <- as.data.frame(table(aux$SAMPLE))
+aux
 
+aux<-as.data.frame(unique(somatic[,c("index", "ExonicFunc.refGene")]))
+aux <- as.data.frame(table(aux$ExonicFunc.refGene))
+aux
 ### SALVAR A TABELA COM MUTACOES SOMATICAS  ####
 #==============================================================================#
-# fwrite(somatic, paste0(output,"/somatic_mutation.tsv"), quote = F, sep="\t")
+ fwrite(somatic, paste0(output,"/somatic_mutation.tsv"), quote = F, sep="\t")
 #==============================================================================#
 #somatic<-as.data.frame(fread(paste0(output,"/somatic_mutation.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
 
@@ -368,7 +435,7 @@ somatic_Samples<- merge(somatic.MATH, tmb, by = "SAMPLE")
 
 # SALVAR A TABELA MATH-SCORE, TMB DE CADA AMOSTRA  ###
 #==============================================================================#
-#fwrite(somatic_Samples, paste0(output,"/MATH_TMB-SAMPLES.tsv"), quote = F, sep="\t")
+fwrite(somatic_Samples, paste0(output,"/MATH_TMB-SAMPLES.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
 # Carregando tabela de dados Clinicos ####
@@ -389,7 +456,7 @@ Clinical$Response3 <- gsub("metastatico", "Metastatic" , Clinical$Response3)
 
 ## Listras de amostras excluidas pelo corpo clinico 
 samples.excl <- c("ROP-116","ROP-118","ROP-120","ROP-121","ROP-122","ROP-123","ROP-125","ROP-126",
-                  "ROP-127","ROP-130","ROP-131","ROP-132","ROP-23","ROP-84", "ROP-129", "ROP-81", "ROP-91")
+                  "ROP-127","ROP-130","ROP-131","ROP-132","ROP-23","ROP-84")
 
 ## Selecionando amostas do Exoma 
 Clinical <- Clinical[Clinical$WXS== "Y",]
@@ -404,7 +471,7 @@ dir.create(paste0(output,"mutations_to_filter_fromVCF/"))
 for (sp in samples) {
   BED<-subset(somatic, SAMPLE==sp, select = c("CHR", "POS","REF","ALT","index"))
   BED<-unique(BED)
-  # fwrite(BED,paste0(output,"mutations_to_filter_fromVCF/",sp,".bed"), sep = "\t", col.names = T, row.names = F, quote = F)
+  fwrite(BED,paste0(output,"mutations_to_filter_fromVCF/",sp,".bed"), sep = "\t", col.names = T, row.names = F, quote = F)
 }
 
 # SALVAR ARQUIVOS BED COM SINONIMAS PARA FILTRAR VCF ####
@@ -414,14 +481,15 @@ dir.create(paste0(output,"mutations_to_filter_fromVCF/"))
 for (sp in samples) {
   BED<-subset(all.Coding, SAMPLE==sp, select = c("CHR", "POS","REF","ALT","index"))
   BED<-unique(BED)
-  # fwrite(BED,paste0(output,"mutations_to_filter_fromVCF/",sp,".synonymous.bed"), sep = "\t", col.names = T, row.names = F, quote = F)
+  fwrite(BED,paste0(output,"mutations_to_filter_fromVCF/",sp,".synonymous.bed"), sep = "\t", col.names = T, row.names = F, quote = F)
 }
 
 ## Carregando dados de MATH_SCORE, TMB, MUT, SAMPLE
 sampleTableCount<- fread(paste0(output,"/MATH_TMB-SAMPLES.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE)
+sampleTableCount<-somatic_Samples
 
 aux<-subset(somatic_Samples, SAMPLE %in% Clinical$Sample)
-# fwrite(aux, paste0(output,"/MATH_TMB-69.SAMPLES.tsv"), quote = F, sep="\t")
+ fwrite(aux, paste0(output,"/MATH_TMB-72.SAMPLES.tsv"), quote = F, sep="\t")
 
 ## Filtrando mutações dos 69 pacientes finais 
 sampleTableCount<-subset(sampleTableCount, (SAMPLE %in% Clinical$Sample) )
@@ -436,11 +504,11 @@ sampleTableCount.Clinical2 <- subset(sampleTableCount.Clinical, !(ID_Exoma %in% 
 somatic <- merge(somatic, Clinical[,c("Sample","ID_Exoma")], by.x = "SAMPLE", by.y = "Sample", all.x = T)
 
 ## Removendo amostras excluidas por criterios clinicos da tabela somatic 
-somatic.69 <- somatic[!is.na(somatic$ID_Exoma),] 
+somatic.72 <- somatic[!is.na(somatic$ID_Exoma),] 
 
-### SALVAR A TABELA COM MUTACOES SOMATICAS DAS 69 amostras ####
+### SALVAR A TABELA COM MUTACOES SOMATICAS DAS 72 amostras ####
 #==============================================================================#
-# fwrite(somatic.69, paste0(output,"/somatic_mutation.69samples.tsv"), quote = F, sep="\t")
+ fwrite(somatic.72, paste0(output,"/somatic_mutation.72samples.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
 ### PLOT MATH_score ####
@@ -453,9 +521,9 @@ p<-ggplot(data=sampleTableCount.Clinical, aes(x= reorder(ID_Exoma, -MATH_score),
   geom_hline(yintercept= median(sampleTableCount.Clinical$MATH_score), linetype="dashed", color = "black")+
   annotate(geom="text", x=50, y=50, label=paste("median MATH= ",sprintf("%.2f",median(sampleTableCount.Clinical$MATH_score))), color="black")+
   xlab("SAMPLES") +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-gridExtra::grid.arrange(p, bottom="MATH-score distribution from 69 samples")
+gridExtra::grid.arrange(p, bottom="MATH-score distribution from 72 samples")
 
-aux<-(unique(somatic.69[,c("index", "ExonicFunc.refGene")]))  
+aux<-(unique(somatic.72[,c("index", "ExonicFunc.refGene")]))  
 aux<-as.data.frame(table(aux$ExonicFunc.refGene))
 aux$perc <- (aux$Freq/sum(aux$Freq)) *100
 aux
@@ -468,11 +536,11 @@ p <- ggplot(sampleTableCount.Clinical  , aes(x=Response1, y=MATH_score, fill=Res
   geom_boxplot(outlier.shape = NA)+ 
   scale_fill_manual(values = c("#08415c", "#cc2936"), breaks = c("nCRT-R", "nCRT-NR")) +
   annotate("text", label = paste('N = 16', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 53', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 56', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
   stat_compare_means()+ theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
 table(sampleTableCount.Clinical$Response1)
-gridExtra::grid.arrange(p, bottom="MATH-score correlation nCRT-R x nCRT-NR (69 samples)")
+gridExtra::grid.arrange(p, bottom="MATH-score correlation nCRT-R x nCRT-NR (72 samples)")
 
 # sem ROP-107 e ROP-83
 #==============================================================================#
@@ -481,11 +549,11 @@ p <- ggplot(sampleTableCount.Clinical2  , aes(x=Response1, y=MATH_score, fill=Re
   geom_boxplot(outlier.shape = NA)+ 
   scale_fill_manual(values = c("#08415c", "#cc2936"), breaks = c("nCRT-R", "nCRT-NR")) +
   annotate("text", label = paste('N = 14', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 53', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 56', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
   stat_compare_means()+ theme_classic()+
   theme(legend.position="none") + geom_jitter(shape=16, position=position_jitter(0.2))
 
-gridExtra::grid.arrange(p, bottom="MATH-score correlation nCRT-R x nCRT-NR (67 samples)")
+gridExtra::grid.arrange(p, bottom="MATH-score correlation nCRT-R x nCRT-NR (70 samples)")
 table(sampleTableCount.Clinical2$Response1)
 
 my_comparisons <- list( c("nCRT-R", "nCRT-NR Not-Metastatic"), 
@@ -497,13 +565,18 @@ p <- ggplot(sampleTableCount.Clinical, aes(x=Response2, y=MATH_score, fill=Respo
   stat_compare_means(label.y = 80)+
   scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
   annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 37', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
   stat_compare_means(comparisons = my_comparisons)+
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (69 samples)")
+gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (72 samples)")
 table(sampleTableCount.Clinical$Response2)
+
+
+
+
+
 
 # sem ROP-107 e ROP-83
 #==============================================================================#
@@ -511,34 +584,34 @@ p <- ggplot(sampleTableCount.Clinical2, aes(x=Response2, y=MATH_score, fill=Resp
   geom_boxplot(outlier.shape = NA)+
   stat_compare_means(label.y = 80)+
   scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 37', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 14', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 14', sep = ''), x = 3, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
   stat_compare_means(comparisons = my_comparisons)+
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (67 samples)")
+gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (70 samples)")
 table(sampleTableCount.Clinical2$Response2)
 # RESPONSE 3
 p <- ggplot(sampleTableCount.Clinical  , aes(x=Response3, y=MATH_score, fill=Response3)) + 
   geom_boxplot(outlier.shape = NA)+ stat_compare_means()+ 
   scale_fill_manual(values = c("#cc2956", "#ef764a"), breaks = c("Metastatic", "Not-Metastatic")) +
-  annotate("text", label = paste('N = 53', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 54', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (69 samples)")
+gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (72 samples)")
 table(sampleTableCount.Clinical$Response3)
 # sem ROP-107 e ROP-83
 #==============================================================================#
 p <- ggplot(sampleTableCount.Clinical2  , aes(x=Response3, y=MATH_score, fill=Response3)) + 
   geom_boxplot(outlier.shape = NA)+ stat_compare_means()+ 
   scale_fill_manual(values = c("#cc2956", "#ef764a"), breaks = c("Metastatic", "Not-Metastatic")) +
-  annotate("text", label = paste('N = 51', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 52', sep = ''), x = 2, y = 3, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 3, angle = 0, size = 3.75) +
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (67 samples)")
+gridExtra::grid.arrange(p, bottom="MATH-score correlation Response2 (70 samples)")
 table(sampleTableCount.Clinical2$Response3)
 
 
@@ -553,7 +626,7 @@ p<- ggplot(data=sampleTableCount.Clinical, aes(x= reorder(ID_Exoma, -TMB), y=TMB
   annotate(geom="text", x=50, y=50, label=paste("median TMB= ",sprintf("%.2f",median(sampleTableCount.Clinical$TMB))), color="black")+
   xlab("SAMPLES")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-gridExtra::grid.arrange(p, bottom="TMB distribution from 69 samples")
+gridExtra::grid.arrange(p, bottom="TMB distribution from 72 samples")
 
 sampleTableCount.Clinical$Perc_TMB <- sampleTableCount.Clinical$TMB/max(sampleTableCount.Clinical$TMB)
 
@@ -567,10 +640,10 @@ p <- ggplot(sampleTableCount.Clinical  , aes(x=Response1, y=TMB, fill=Response1)
   scale_y_sqrt()+
   scale_fill_manual(values = c("#08415c", "#cc2936"), breaks = c("nCRT-R", "nCRT-NR")) +
   annotate("text", label = paste('N = 16', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 53', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 56', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
   stat_compare_means()+ theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="TMB correlation Response1 (69 samples)")
+gridExtra::grid.arrange(p, bottom="TMB correlation Response1 (72 samples)")
 table(sampleTableCount.Clinical$Response1)
 # sem ROP-107 e ROP-83
 #==============================================================================#
@@ -579,10 +652,10 @@ p <- ggplot(sampleTableCount.Clinical2  , aes(x=Response1, y=TMB, fill=Response1
   # scale_y_sqrt()+
   scale_fill_manual(values = c("#08415c", "#cc2936"), breaks = c("nCRT-R", "nCRT-NR")) +
   annotate("text", label = paste('N = 14', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 53', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 56', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
   stat_compare_means()+ theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="TMB correlation Response1 (67 samples)")
+gridExtra::grid.arrange(p, bottom="TMB correlation Response1 (70 samples)")
 table(sampleTableCount.Clinical2$Response1)
 
 my_comparisons <- list( c("nCRT-R", "nCRT-NR Not-Metastatic"), 
@@ -596,11 +669,11 @@ p <- ggplot(sampleTableCount.Clinical, aes(x=Response2, y=TMB, fill=Response2)) 
   stat_compare_means(comparisons = my_comparisons)+ 
   scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
   annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 37', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="TMB correlation Response2 (69 samples)")
+gridExtra::grid.arrange(p, bottom="TMB correlation Response2 (72 samples)")
 table(sampleTableCount.Clinical$Response2)
 # sem ROP-107 e ROP-83
 #==============================================================================#
@@ -611,11 +684,11 @@ p <- ggplot(sampleTableCount.Clinical2, aes(x=Response2, y=TMB, fill=Response2))
   stat_compare_means(comparisons = my_comparisons)+ 
   scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
   annotate("text", label = paste('N = 14', sep = ''), x = 3, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 37', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="TMB correlation Response2 (67 samples)")
+gridExtra::grid.arrange(p, bottom="TMB correlation Response2 (70 samples)")
 table(sampleTableCount.Clinical2$Response2)
 
 # RESPONSE 3
@@ -624,11 +697,11 @@ p <- ggplot(sampleTableCount.Clinical, aes(x=Response3, y=TMB, fill=Response3)) 
   scale_y_sqrt()+
   stat_compare_means(label.y = 10)+
   scale_fill_manual(values = c("#cc2956", "#ef764a"), breaks = c("Metastatic", "Not-Metastatic")) +
-  annotate("text", label = paste('N = 53', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 54', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="TMB correlation Response3 (69 samples)")
+gridExtra::grid.arrange(p, bottom="TMB correlation Response3 (72 samples)")
 table(sampleTableCount.Clinical$Response3)
 # sem ROP-107 e ROP-83
 #==============================================================================#
@@ -637,11 +710,11 @@ p <- ggplot(sampleTableCount.Clinical2, aes(x=Response3, y=TMB, fill=Response3))
   # scale_y_sqrt()+
   stat_compare_means(label.y = 10)+
   scale_fill_manual(values = c("#cc2956", "#ef764a"), breaks = c("Metastatic", "Not-Metastatic")) +
-  annotate("text", label = paste('N = 51', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
-  annotate("text", label = paste('N = 16', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 52', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
   theme_classic()+theme(legend.position="none")+
   geom_jitter(shape=16, position=position_jitter(0.2))
-gridExtra::grid.arrange(p, bottom="TMB correlation Response3 (67 samples)")
+gridExtra::grid.arrange(p, bottom="TMB correlation Response3 (70 samples)")
 table(sampleTableCount.Clinical2$Response3)
 
 
@@ -671,12 +744,12 @@ qqline(sampleTableCount.Clinical2$MATH_score)
 p<-ggscatter(sampleTableCount.Clinical, x = "MATH_score", y = "TMB",
              add = "reg.line",  # Add regressin line
              # add = "loess",  # Local Polynomial Regression Fitting
-#          cor.coef=T,
-          cor.method = "spearman",
-          add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
-          conf.int = TRUE # Add confidence interval
+             #          cor.coef=T,
+             cor.method = "spearman",
+             add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
+             conf.int = TRUE # Add confidence interval
 )+ stat_cor(method = "spearman",  label.x = 30,label.y = 100)
-gridExtra::grid.arrange(p, bottom="Spearman Test (69 samples)")
+gridExtra::grid.arrange(p, bottom="Spearman Test (72 samples)")
 
 sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
                 add = "reg.line",  # Add regressin line
@@ -686,7 +759,7 @@ sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
                 add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
                 conf.int = TRUE # Add confidence interval
 ) + stat_cor(method = "spearman", label.x = 30, label.y = 17)
-gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples)")
+gridExtra::grid.arrange(sp, bottom="Spearman Test (70 samples)")
 
 #sem Metastatic
 sp <- ggscatter(subset(sampleTableCount.Clinical2,Response3 == "Not-Metastatic"), x = "MATH_score", y = "TMB",
@@ -698,9 +771,9 @@ sp <- ggscatter(subset(sampleTableCount.Clinical2,Response3 == "Not-Metastatic")
 ) + stat_cor(method = "spearman", label.x = 40)+ 
   geom_point(aes(color = Response2))+
   theme(legend.position="top")
-gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples) excluded Metastatic")
+gridExtra::grid.arrange(sp, bottom="Spearman Test (52 samples) excluded Metastatic")
+nrow(subset(sampleTableCount.Clinical2,Response3 == "Not-Metastatic", ))
 
- 
 # RESPONSE 1
 
 sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
@@ -712,7 +785,7 @@ sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
 ) + stat_cor(method = "spearman",  aes(color = Response1), label.x = 40)+
   geom_point(aes(color = Response1))+
   theme(legend.position="top")
-gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples)")
+gridExtra::grid.arrange(sp, bottom="Spearman Test (70 samples)")
 
 # RESPONSE 2
 sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
@@ -724,7 +797,7 @@ sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
 ) + stat_cor(method = "spearman",  aes(color = Response2), label.x = 40)+
   geom_point(aes(color = Response2))+
   theme(legend.position="top")
-gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples)")
+gridExtra::grid.arrange(sp, bottom="Spearman Test (70 samples)")
 
 # RESPONSE 2 NOVO
 sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
@@ -736,7 +809,7 @@ sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
 ) + stat_cor(method = "spearman",  aes(color = Response2,fill = "Response2"), label.x = 40)+
   geom_point(aes(color = Response2))+
   theme(legend.position="top")
-gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples)")
+gridExtra::grid.arrange(sp, bottom="Spearman Test (70 samples)")
 
 # RESPONSE 2  excluded metastatic
 sp <- ggscatter(subset(sampleTableCount.Clinical2,Response2 != "nCRT-NR Metastatic"), x = "MATH_score", y = "TMB",
@@ -748,7 +821,7 @@ sp <- ggscatter(subset(sampleTableCount.Clinical2,Response2 != "nCRT-NR Metastat
 ) + stat_cor(method = "spearman",  aes(color = Response2), label.x = 40)+
   geom_point(aes(color = Response2))+
   theme(legend.position="top")
-gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples) excluded Metastatic")
+gridExtra::grid.arrange(sp, bottom="Spearman Test (70 samples) excluded Metastatic")
 # RESPONSE 3
 sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
                 add = "reg.line",  # Add regressin line
@@ -759,7 +832,7 @@ sp <- ggscatter(sampleTableCount.Clinical2, x = "MATH_score", y = "TMB",
 ) + stat_cor(method = "spearman",  aes(color = Response3), label.x = 40)+
   geom_point(aes(color = Response3))+
   theme(legend.position="top")
-gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples)")
+gridExtra::grid.arrange(sp, bottom="Spearman Test (70 samples)")
 
 
 #==============================================================================#
@@ -768,7 +841,7 @@ gridExtra::grid.arrange(sp, bottom="Spearman Test (67 samples)")
 dgenes<-fread("input_Somatic-Filter/driver-genes.txt", header = F, col.names = "gene")
 dMMR<-fread("input_Somatic-Filter/dMMR_genes.txt", header = F, col.names = "gene")
 
-mut.genes=unique(select(somatic.69, c("index","Gene.refGene")))
+mut.genes=unique(select(somatic.72, c("index","Gene.refGene")))
 aux2 <- as.data.frame(table(mut.genes$Gene.refGene))
 names(aux2) <- c("Gene", "Freq_Mutation")
 aux2 <- (aux2[order(aux2$Freq, decreasing = T),])
@@ -789,9 +862,9 @@ p +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 #==============================================================================#
 dgenes<-fread("input_Somatic-Filter/driver-genes.txt", header = F, col.names = "gene")
 dMMR<-fread("input_Somatic-Filter/dMMR_genes.txt", header = F, col.names = "gene")
-somatic.67 <- subset(somatic.69, !(ID_Exoma %in% c("ROP-83", "ROP-107")), )
+somatic.70 <- subset(somatic.72, !(ID_Exoma %in% c("ROP-83", "ROP-107")), )
 
-mut.genes=unique(select(somatic.67, c("index","Gene.refGene")))
+mut.genes=unique(select(somatic.70, c("index","Gene.refGene")))
 aux2 <- as.data.frame(table(mut.genes$Gene.refGene))
 names(aux2) <- c("Gene", "Freq_Mutation")
 aux2 <- (aux2[order(aux2$Freq, decreasing = T),])
@@ -830,21 +903,21 @@ library(dndscv)
 # fwrite(as.data.frame(unique(target_file$gene.name)), "input_Somatic-Filter/xgen-exome-research-panel-v2-targets-hg38.list", quote = F, col.names = F, row.names = F)
 # 
 
- # cd input_Somatic-Filter/
- # cut -f 4 xgen-exome-research-panel-v2-targets-hg38.bed | cut -d '_' -f1| sort -u > xgen-exome-research-panel-v2-targets-hg38.list
- # path_cds_table <- c("input_Somatic-Filter/xgen-exome-research-panel-v2-targets-hg38.mart_export.txt")
- # path_cds_table <- c("input_Somatic-Filter/mart_export.txt")
- # path_cds_table <- c("input_Somatic-Filter/chr19-hg38.mart_export.txt")
- # 
- # path_genome_fasta = c("input_Somatic-Filter/Homo_sapiens.GRCh38.dna.chromosome.19.fa")
- # path_genome_fasta = c("input_Somatic-Filter/Homo_sapiens.GRCh38.p14_GCA_000001405.29.fa")
- # buildref(cdsfile=path_cds_table, genomefile=path_genome_fasta, outfile = "example_output_refcds.rda", excludechrs="MT", useids = T,)
+# cd input_Somatic-Filter/
+# cut -f 4 xgen-exome-research-panel-v2-targets-hg38.bed | cut -d '_' -f1| sort -u > xgen-exome-research-panel-v2-targets-hg38.list
+# path_cds_table <- c("input_Somatic-Filter/xgen-exome-research-panel-v2-targets-hg38.mart_export.txt")
+# path_cds_table <- c("input_Somatic-Filter/mart_export.txt")
+# path_cds_table <- c("input_Somatic-Filter/chr19-hg38.mart_export.txt")
+# 
+# path_genome_fasta = c("input_Somatic-Filter/Homo_sapiens.GRCh38.dna.chromosome.19.fa")
+# path_genome_fasta = c("input_Somatic-Filter/Homo_sapiens.GRCh38.p14_GCA_000001405.29.fa")
+# buildref(cdsfile=path_cds_table, genomefile=path_genome_fasta, outfile = "example_output_refcds.rda", excludechrs="MT", useids = T,)
 
 #==============================================================================#
 # 69 SAMPLES
 #==============================================================================#
 all.mut.flt<-fread(paste0(output,"/mutation_codRegion_Freq005.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE)
-all.mut.flt.69<- subset(all.mut.flt, SAMPLE %in% unique(Clinical$Sample))
+all.mut.flt.72<- subset(all.mut.flt, SAMPLE %in% unique(Clinical$Sample))
 # 
 # aux<-(mutations2[which(mutations2$Ref %in% c("A", "T","C", "G")),])
 # aux<-(aux[which(aux$Alt %in% c("A", "T","C", "G")),])
@@ -852,20 +925,20 @@ all.mut.flt.69<- subset(all.mut.flt, SAMPLE %in% unique(Clinical$Sample))
 
 # targert_file<- fread("input_Somatic-Filter/xgen-exome-research-panel-v2-targets-hg38.bed ")
 # targert_file <- separate(data = targert_file, col = V4, into = c("Gene","id"), sep = "_")
-mutations <- all.mut.flt.69[,c("SAMPLE", "Chr", "Start", "Ref", "Alt")]
+mutations <- all.mut.flt.72[,c("SAMPLE", "Chr", "Start", "Ref", "Alt")]
 dndsout = dndscv(mutations, refdb="../resultados_Mutect2/input_Somatic-Filter/RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda", cv=NULL,
                  # gene_list = unique(targert_file$Gene),
                  max_coding_muts_per_sample = Inf, max_muts_per_gene_per_sample = Inf )
 mutations2 <-mutations
 mutations2$Chr <- gsub("chr", "", mutations2$Chr)
 dndsout2 = dndscv(mutations2, refdb="../resultados_Mutect2/input_Somatic-Filter/RefCDS_human_GRCh38_GencodeV18_recommended.rda", cv=NULL,
-                 # gene_list = unique(targert_file$Gene),
-                 max_coding_muts_per_sample = Inf, max_muts_per_gene_per_sample = Inf )
+                  # gene_list = unique(targert_file$Gene),
+                  max_coding_muts_per_sample = Inf, max_muts_per_gene_per_sample = Inf )
 
-mutations3 <- all.mut.flt.69[,c("SAMPLE", "CHR", "POS", "REF", "ALT")]
+mutations3 <- all.mut.flt.72[,c("SAMPLE", "CHR", "POS", "REF", "ALT")]
 dndsout3 = dndscv(mutations3, refdb="../resultados_Mutect2/input_Somatic-Filter/RefCDS_human_GRCh38.p12_dNdScv.0.1.0.rda", cv=NULL,
-                 # gene_list = unique(targert_file$Gene),
-                 max_coding_muts_per_sample = Inf, max_muts_per_gene_per_sample = Inf )
+                  # gene_list = unique(targert_file$Gene),
+                  max_coding_muts_per_sample = Inf, max_muts_per_gene_per_sample = Inf )
 mutations4 <-mutations3
 mutations4$CHR <- gsub("chr", "", mutations4$CHR)
 dndsout4 = dndscv(mutations2, refdb="../resultados_Mutect2/input_Somatic-Filter/RefCDS_human_GRCh38_GencodeV18_recommended.rda", cv=NULL,
@@ -902,26 +975,26 @@ nrow(subset(signif_genes,pglobal_cv <= 0.05))
 nrow(subset(signif_genes,qglobal_cv <= 0.1))
 nrow(subset(signif_genes,qglobal_cv <= 0.05))
 
-fwrite(sel_cv[sel_cv$pglobal_cv<0.05, ], paste0(output,"/somatic.69.mut_signif_dndscv.tsv"), quote = F, sep="\t")
-fwrite(signif_genes, paste0(output,"/somatic.69.mut_signif_genes.tsv"), quote = F, sep="\t")
+fwrite(sel_cv[sel_cv$pglobal_cv<0.05, ], paste0(output,"/somatic.72.mut_signif_dndscv.tsv"), quote = F, sep="\t")
+fwrite(signif_genes, paste0(output,"/somatic.72.mut_signif_genes.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
-#                ONCOPLOT  69 samples ####
+#                ONCOPLOT  72 samples ####
 #==============================================================================#
-signif_genes <- fread(file=paste0(output,"/somatic.69.mut_signif_genes.tsv"))
+signif_genes <- fread(file=paste0(output,"/somatic.72.mut_signif_genes.tsv"))
 
 somatic.maf<-fread(paste0(output,"/mutation_codRegion_Freq005.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE)
-somatic.maf.69<- subset(somatic.maf, SAMPLE %in% unique(Clinical$Sample))
-somatic.maf.69 <- merge(somatic.maf.69, sampleTableCount.Clinical[,c("SAMPLE","ID_Exoma")], by= "SAMPLE", all.x = T)
-# somatic.maf<- subset(somatic.maf.69, select=c("CHR", "POS", "REF", "ALT", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
-somatic.maf<- subset(somatic.maf.69, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
+somatic.maf.72<- subset(somatic.maf, SAMPLE %in% unique(Clinical$Sample))
+somatic.maf.72 <- merge(somatic.maf.72, sampleTableCount.Clinical[,c("SAMPLE","ID_Exoma")], by= "SAMPLE", all.x = T)
+# somatic.maf<- subset(somatic.maf.72, select=c("CHR", "POS", "REF", "ALT", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
+somatic.maf<- subset(somatic.maf.72, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
 
 somatic.maf<- somatic.maf %>% 
   mutate(Gene.refGene = strsplit(as.character(Gene.refGene), ";")) %>% 
   unnest(Gene.refGene)
 
 # DESCOMENTE ABAIXO PARA PLOTAR SEM MUTAÇOES SINONIMAS
-# somatic.maf<- subset(somatic.69, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
+# somatic.maf<- subset(somatic.72, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
 # somatic.maf<- somatic.maf %>%
 #   mutate(Gene.refGene = strsplit(as.character(Gene.refGene), ";")) %>%
 #   unnest(Gene.refGene)
@@ -940,7 +1013,7 @@ colnames(somatic.maf)[names(somatic.maf)=="ID_Exoma"]<-"Tumor_Sample_Barcode"
 sampleTableCount.Clinical.maf <- sampleTableCount.Clinical
 colnames(sampleTableCount.Clinical.maf)[names(sampleTableCount.Clinical.maf)=="ID_Exoma"]<-"Tumor_Sample_Barcode"
 
-aux<-unique(subset(somatic.69, class == "dMMR",select = c("SAMPLE","class") ))
+aux<-unique(subset(somatic.72, class == "dMMR",select = c("SAMPLE","class") ))
 sampleTableCount.Clinical.maf$dMMR = "pMMR"
 sampleTableCount.Clinical.maf$dMMR[sampleTableCount.Clinical.maf$SAMPLE %in% aux$SAMPLE] <-'dMMR'
 
@@ -966,14 +1039,14 @@ oncoplot(maf = maf,
 # DNDS_CV 2 - sem ROP-107 e ROP-83####
 #==============================================================================#
 all.mut.flt<-fread(paste0(output,"/mutation_codRegion_Freq005.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE)
-all.mut.flt.69<- subset(all.mut.flt, SAMPLE %in% unique(Clinical$Sample))
-all.mut.flt.67<-subset(all.mut.flt.69, 
-                        !(SAMPLE %in% c("ROP-83-ExC85-xgenV2_S54", "ROP-107-ExC85-xgenV2_S71")),)
-mutations2 <- all.mut.flt.67[,c("SAMPLE", "Chr", "Start", "Ref", "Alt")]
+all.mut.flt.72<- subset(all.mut.flt, SAMPLE %in% unique(Clinical$Sample))
+all.mut.flt.70<-subset(all.mut.flt.72, 
+                       !(SAMPLE %in% c("ROP-83-ExC85-xgenV2_S54", "ROP-107-ExC85-xgenV2_S71")),)
+mutations2 <- all.mut.flt.70[,c("SAMPLE", "Chr", "Start", "Ref", "Alt")]
 mutations2$Chr <- gsub("chr", "", mutations2$Chr)
 dndsout2 = dndscv(mutations2, refdb="../resultados_Mutect2/input_Somatic-Filter/RefCDS_human_GRCh38_GencodeV18_recommended.rda", cv=NULL,
-                 # gene_list = unique(targert_file$Gene),
-                 max_coding_muts_per_sample = Inf, max_muts_per_gene_per_sample = Inf )
+                  # gene_list = unique(targert_file$Gene),
+                  max_coding_muts_per_sample = Inf, max_muts_per_gene_per_sample = Inf )
 
 print(dndsout2$globaldnds)
 print(dndsout2$nbreg$theta)
@@ -986,29 +1059,29 @@ print(subset(signif_genes,qglobal_cv <= 0.1))
 nrow(subset(signif_genes,pglobal_cv <= 0.05))
 nrow(subset(signif_genes,qglobal_cv <= 0.1))
 nrow(subset(signif_genes,qglobal_cv <= 0.05))
-fwrite(sel_cv[sel_cv$pglobal_cv<0.05, ], paste0(output,"/somatic.67.mut_signif_dndscv.tsv"), quote = F, sep="\t")
-fwrite(signif_genes, paste0(output,"/somatic.67.mut_signif_genes.tsv"), quote = F, sep="\t")
+fwrite(sel_cv[sel_cv$pglobal_cv<0.05, ], paste0(output,"/somatic.70.mut_signif_dndscv.tsv"), quote = F, sep="\t")
+fwrite(signif_genes, paste0(output,"/somatic.70.mut_signif_genes.tsv"), quote = F, sep="\t")
 
 #==============================================================================#
-#                ONCOPLOT  67 samples ####
+#                ONCOPLOT  70 samples ####
 #==============================================================================#
-signif_genes <- fread(file=paste0(output,"/somatic.67.mut_signif_genes.tsv"))
+signif_genes <- fread(file=paste0(output,"/somatic.70.mut_signif_genes.tsv"))
 
-somatic.maf<- subset(somatic.67, select=c("CHR", "POS", "REF", "ALT", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
+somatic.maf<- subset(somatic.70, select=c("CHR", "POS", "REF", "ALT", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
 
 somatic.maf<-fread(paste0(output,"/mutation_codRegion_Freq005.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE)
-somatic.maf.69<- subset(somatic.maf, SAMPLE %in% unique(Clinical$Sample))
-somatic.maf.67<- subset(somatic.maf.69, 
+somatic.maf.72<- subset(somatic.maf, SAMPLE %in% unique(Clinical$Sample))
+somatic.maf.70<- subset(somatic.maf.72, 
                         !(SAMPLE %in% c("ROP-83-ExC85-xgenV2_S54", "ROP-107-ExC85-xgenV2_S71")),)
-somatic.maf.67 <- merge(somatic.maf.67, sampleTableCount.Clinical2[,c("SAMPLE","ID_Exoma")], by= "SAMPLE", all.x = T)
-somatic.maf<- subset(somatic.maf.67, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
+somatic.maf.70 <- merge(somatic.maf.70, sampleTableCount.Clinical2[,c("SAMPLE","ID_Exoma")], by= "SAMPLE", all.x = T)
+somatic.maf<- subset(somatic.maf.70, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
 
 somatic.maf<- somatic.maf %>% 
   mutate(Gene.refGene = strsplit(as.character(Gene.refGene), ";")) %>% 
   unnest(Gene.refGene)
 
 # DESCOMENTE ABAIXO PARA PLOTAR SEM MUTAÇOES SINONIMAS
-# somatic.maf<- subset(somatic.67, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
+# somatic.maf<- subset(somatic.70, select=c("Chr", "Start",  "End","Ref", "Alt", "Gene.refGene","ID_Exoma","ExonicFunc.refGene"))
 # somatic.maf<- somatic.maf %>%
 #   mutate(Gene.refGene = strsplit(as.character(Gene.refGene), ";")) %>%
 #   unnest(Gene.refGene)
@@ -1027,7 +1100,7 @@ colnames(somatic.maf)[names(somatic.maf)=="ID_Exoma"]<-"Tumor_Sample_Barcode"
 sampleTableCount.Clinical.maf <- sampleTableCount.Clinical2
 colnames(sampleTableCount.Clinical.maf)[names(sampleTableCount.Clinical.maf)=="ID_Exoma"]<-"Tumor_Sample_Barcode"
 
-aux<-unique(subset(somatic.67, class == "dMMR",select = c("SAMPLE","class") ))
+aux<-unique(subset(somatic.70, class == "dMMR",select = c("SAMPLE","class") ))
 sampleTableCount.Clinical.maf$dMMR = "pMMR"
 sampleTableCount.Clinical.maf$dMMR[sampleTableCount.Clinical.maf$SAMPLE %in% aux$SAMPLE] <-'dMMR'
 
@@ -1052,10 +1125,10 @@ oncoplot(maf = maf,
 #==============================================================================#
 #  pheatmap - GENES with dMMR  
 #==============================================================================#
-mut.genes=unique(select(somatic.69, c("Gene.refGene","ID_Exoma", "class")))
+mut.genes=unique(select(somatic.72, c("Gene.refGene","ID_Exoma", "class")))
 aux<- as.data.frame(unique(subset(mut.genes, select= ID_Exoma)))
 
-mut.genes.heatmap= as.data.frame(table(unique(select(somatic.69, c("Gene.refGene","ID_Exoma")))))
+mut.genes.heatmap= as.data.frame(table(unique(select(somatic.72, c("Gene.refGene","ID_Exoma")))))
 mut.genes.heatmap<- mut.genes.heatmap[mut.genes.heatmap$Gene.refGene %in% dMMR$gene,]
 mut.genes.heatmap<- mut.genes.heatmap[mut.genes.heatmap$ID_Exoma %in% aux$ID_Exoma,]
 df<- as.matrix(reshape2::dcast(mut.genes.heatmap, Gene.refGene ~ ID_Exoma,  value.var = "Freq"))
@@ -1082,10 +1155,10 @@ pheatmap((df_ordered), color=colorRampPalette(c("white", "darkred"))(100),
 #==============================================================================#
 #  pheatmap - GENES with dMMR  67samples
 #==============================================================================#
-# mut.genes=unique(select(somatic.67, c("Gene.refGene","ID_Exoma", "class")))
+# mut.genes=unique(select(somatic.70, c("Gene.refGene","ID_Exoma", "class")))
 # aux<- as.data.frame(unique(subset(mut.genes, select= ID_Exoma)))
 # 
-# mut.genes.heatmap= as.data.frame(table(unique(select(somatic.67, c("Gene.refGene","ID_Exoma")))))
+# mut.genes.heatmap= as.data.frame(table(unique(select(somatic.70, c("Gene.refGene","ID_Exoma")))))
 # mut.genes.heatmap<- mut.genes.heatmap[mut.genes.heatmap$Gene.refGene %in% dMMR$gene,]
 # mut.genes.heatmap<- mut.genes.heatmap[mut.genes.heatmap$ID_Exoma %in% aux$ID_Exoma,]
 # df<- as.matrix(reshape2::dcast(mut.genes.heatmap, Gene.refGene ~ ID_Exoma,  value.var = "Freq"))
@@ -1166,7 +1239,7 @@ final_Sig$SAMPLE <- gsub(".recode.final", "", final_Sig$SAMPLE)
 final_Sig<-merge(final_Sig, assinaturas[,c(1,2)], by = "SAMPLE" )
 
 final_Sig$dMMR <-"pMMR"
-mutados<- unique(subset(somatic.69, class == "dMMR", select = SAMPLE))
+mutados<- unique(subset(somatic.72, class == "dMMR", select = SAMPLE))
 final_Sig[final_Sig$SAMPLE %in% mutados$SAMPLE,"dMMR"] <-"dMMR"
 # final_Sig<-merge(final_Sig, subset(somatic_Samples.resp, select = c("SAMPLE","Response1","Response3")), by="sample", all.y = T)
 final_Sig<-merge(final_Sig, subset(sampleTableCount.Clinical, select = c("SAMPLE","Response1","Response3")), by="SAMPLE", all.y = T)
@@ -1205,7 +1278,7 @@ p +theme(axis.text.x = element_text(angle = 90, vjust = 0.3, hjust=0.2), legend.
 mutsig <-fread("table_signatures.tsv", header = T)
 mutsig <- merge(Clinical[,c(1,2)], mutsig, by.x= "Sample",by.y = "SAMPLE")
 
-aux<-unique(subset(somatic.69, class == "dMMR",select = c("SAMPLE","class") ))
+aux<-unique(subset(somatic.72, class == "dMMR",select = c("SAMPLE","class") ))
 sampleTableCount.Clinical$dMMR = "pMMR"
 sampleTableCount.Clinical$dMMR[sampleTableCount.Clinical$SAMPLE %in% aux$SAMPLE] <-'dMMR'
 
@@ -1289,7 +1362,7 @@ p<-ggscatter(subset(aux, !(ID_Exoma %in% c("ROP-83", "ROP-107"))), x = "score_MM
              add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
              conf.int = TRUE # Add confidence interval
 )+ stat_cor(method = "spearman",  label.x = .4)
-gridExtra::grid.arrange(p, bottom="Spearman Test (67 samples)")
+gridExtra::grid.arrange(p, bottom="Spearman Test (70 samples)")
 
 # Correlação MMR_sig vs MATH
 p<-ggscatter(aux, x = "score_MMR_sig", y = "MATH_score",
@@ -1300,7 +1373,7 @@ p<-ggscatter(aux, x = "score_MMR_sig", y = "MATH_score",
              add.params = list(color = "blue", fill = "lightgray"), # Customize reg. line
              conf.int = TRUE # Add confidence interval
 )+ stat_cor(method = "spearman",  label.x = .4,label.y = 70)
-gridExtra::grid.arrange(p, bottom="Spearman Test (69 samples)")
+gridExtra::grid.arrange(p, bottom="Spearman Test (72 samples)")
 
 
 #==============================================================================#
@@ -1322,7 +1395,7 @@ p<-ggplot(sampleTableCount.Clinical3, aes(x=dMMR, y=TMB)) +
   annotate("text", label = paste('N = 10', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
   geom_jitter(shape=16, position=position_jitter(0.2)) +
   theme_classic() +theme(legend.position="left")
-gridExtra::grid.arrange(p, bottom="(67 samples)")
+gridExtra::grid.arrange(p, bottom="(70 samples)")
 table(sampleTableCount.Clinical3$dMMR)
 
 
@@ -1330,9 +1403,9 @@ table(sampleTableCount.Clinical3$dMMR)
 #                   DISTRIBUICAO DAS MAF NAS 69 AMOSTRAS  ####
 #==============================================================================#
 # Para plotar a distuibuiC'C#o dos MAFs estou usando as mutaC'C5es NON_SYNONIMOUS + SINONIMOUS
-#somatic.69<-as.data.frame(fread(paste0(output,"/somatic_mutation.72samples.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
+#somatic.72<-as.data.frame(fread(paste0(output,"/somatic_mutation.72samples.tsv"), header = T,  na.strings=c("NA"), fill=TRUE, check.names = FALSE))
 # 
-# aux1 <- select(subset(somatic.67, (SAMPLE %in% Clinical$Sample)  ), SAMPLE, MAF)
+# aux1 <- select(subset(somatic.70, (SAMPLE %in% Clinical$Sample)  ), SAMPLE, MAF)
 # aux2 <- as.data.frame(table(aux1), stringsAsFactors = F)
 # aux2$MAF <- as.double(aux2$MAF)
 # aux2 <- merge(aux2, Clinical[,c("Sample","ID_Exoma","Response1","Response2")], by.x= "SAMPLE", by.y = "Sample", all.x = T)
@@ -1372,12 +1445,13 @@ table(sampleTableCount.Clinical3$dMMR)
 # Fisher Test  - Drivers genes, dMMR ####
 #==============================================================================#
 
+
 sampleTableCount.Clinical$DriverGene <-"notDriver"
-mutados<- unique(subset(somatic.69, class == "driver", select = ID_Exoma))
+mutados<- unique(subset(somatic.72, class == "driver", select = ID_Exoma))
 sampleTableCount.Clinical[sampleTableCount.Clinical$ID_Exoma %in% mutados$ID_Exoma]$DriverGene <-"RectalDriver"
 
 sampleTableCount.Clinical$dMMR <-"pMMR"
-mutados<- unique(subset(somatic.69, class == "dMMR", select = ID_Exoma))
+mutados<- unique(subset(somatic.72, class == "dMMR", select = ID_Exoma))
 sampleTableCount.Clinical[sampleTableCount.Clinical$ID_Exoma %in% mutados$ID_Exoma]$dMMR <-"dMMR"
 
 classeGenes <- c("DriverGene", "dMMR")
@@ -1413,7 +1487,7 @@ for (geneClass in classeGenes) {
 
 # sink(file = paste0(output,"/Fisher_Test_dnds.mutGenes.FDR10.txt"), append = FALSE)
 
-dndsGenes <-fread(paste0(output,"somatic.67.mut_signif_genes.tsv"), header = T, na.strings=c("NA"), fill=TRUE, check.names = FALSE)
+dndsGenes <-fread(paste0(output,"somatic.70.mut_signif_genes.tsv"), header = T, na.strings=c("NA"), fill=TRUE, check.names = FALSE)
 # dndsGenes <- subset(dndsGenes, qglobal_cv <= 0.1, select = "gene_name")
 
 for (resp in respostas) {
@@ -1422,7 +1496,7 @@ for (resp in respostas) {
     # gene="FBXW7"
     aux <-sampleTableCount.Clinical2
     aux$mutGene <-"not_dNdSGene"
-    mutados<- unique(subset(somatic.69,  Gene.refGene == gene, select = ID_Exoma))
+    mutados<- unique(subset(somatic.72,  Gene.refGene == gene, select = ID_Exoma))
     aux[aux$ID_Exoma %in% mutados$ID_Exoma, "mutGene"] <-"dNdSGene"
     aux1<- as.data.frame(unique(subset(aux, select = c("ID_Exoma", "mutGene", resp))))
     
@@ -1466,14 +1540,14 @@ respostas <- c("Response1", "Response2", "Response3")
 
 for (id in List_Ass) {
   for (resp in respostas) {
-  # id="28"
-  # resp= "Response1"
-  aux<-as.data.frame(unique(subset(final_Ass,  sig_id==id, select=c("SAMPLE"))), stringsAsFactors = F)
-  table_sig$MMR_sig = "0"
-  table_sig[table_sig$SAMPLE %in% aux$SAMPLE]$MMR_sig <-"1"
-
-  # dt3<- matrix(table(table_sig[,c("MMR_sig", "Response1")]), nr=2)
-  dt3<- matrix(table(subset(table_sig, select = c("MMR_sig", resp))), nr=2)
+    # id="28"
+    # resp= "Response1"
+    aux<-as.data.frame(unique(subset(final_Ass,  sig_id==id, select=c("SAMPLE"))), stringsAsFactors = F)
+    table_sig$MMR_sig = "0"
+    table_sig[table_sig$SAMPLE %in% aux$SAMPLE]$MMR_sig <-"1"
+    
+    # dt3<- matrix(table(table_sig[,c("MMR_sig", "Response1")]), nr=2)
+    dt3<- matrix(table(subset(table_sig, select = c("MMR_sig", resp))), nr=2)
     if(ncol(dt3)>1){
       resultado<-fisher.test(dt3)
       valor_p <- resultado$p.value
@@ -1602,7 +1676,7 @@ for (sv in eventos_SV) {
 library(pROC)
 
 # dir.create("curva_roc")
- 
+
 # pdf("curva_roc/TMB_Resposta.pdf", width =7, height = 5)
 #=========================================#
 # resp.trat<-resp.trat[resp.trat$WXS == "Y",]
@@ -1611,7 +1685,7 @@ ggplot(aux, aes(x = TMB, fill = Response1)) +
   #geom_density(position = "identity", alpha = 0.5) +
   geom_histogram(position = "identity", alpha = 0.5, bins = 20) +
   scale_fill_manual(values = c("blue", "red")) +
-  ggtitle("TMB Distribuition (67 samples)") + theme_classic()+
+  ggtitle("TMB Distribuition (70 samples)") + theme_classic()+
   xlab("TMB") #+ ylab("Freq.")
 
 
@@ -1649,7 +1723,7 @@ roc_reg_log <- pROC::roc(pred_roc_reg_log$survived , pred_roc_reg_log$pred_reg_l
 # Se desejar, é possível (e bem simples) utilizar o próprio pacote pROC para plotar a curva ROC.
 par(pty = "s")
 plot.roc(
-  main = "ROC Curve TMB (67 samples) \n nCRT-R vs nCRT-NR",
+  main = "ROC Curve TMB (70 samples) \n nCRT-R vs nCRT-NR",
   roc_reg_log,
   print.auc = TRUE,
   legacy.axes = TRUE
@@ -1677,7 +1751,7 @@ ggplot(aux, aes(x = MATH_score, fill = Response1)) +
   #geom_density(position = "identity", alpha = 0.5) +
   geom_histogram(position = "identity", alpha = 0.5, bins = 20) +
   scale_fill_manual(values = c("blue", "red")) +
-  ggtitle("MATH_score Distribuition (67 samples)") + theme_classic()+
+  ggtitle("MATH_score Distribuition (70 samples)") + theme_classic()+
   xlab("MATH_score") #+ ylab("Freq.")
 
 # ============================#
@@ -1721,5 +1795,113 @@ plot.roc(
   # xlab = "Taxa de Falso Positivo (100 - Especificidade)",
   # ylab = "Taxa de Verdadeiro Positivo (Sensibilidade)"
 )
+
+
+
+### codigo utilizado para plotar figuras utilizadas no labmeeting de 18/06/2024
+
+
+
+tab <- read.xlsx(paste0(output, "/Table.72.summary.xlsx"), sheet = "Clin.SNV.CNV.SV", )
+p <- ggplot(tab, aes(x=Response2, y=GAIN, fill=Response2)) + 
+  geom_boxplot(outlier.shape = NA)+
+  stat_compare_means()+
+  scale_y_sqrt()+
+  scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
+  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  stat_compare_means(comparisons = my_comparisons)+
+  theme_classic()+theme(legend.position="none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))
+gridExtra::grid.arrange(p, bottom="CNAs (GAIN) correlation Response2 (72 samples)")
+table(tab$Response2)
+
+p <- ggplot(tab, aes(x=Response2, y=LOSS, fill=Response2)) + 
+  geom_boxplot(outlier.shape = NA)+
+  stat_compare_means()+
+  scale_y_sqrt()+
+  scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
+  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0, angle = 0, size = 3.75) +
+  stat_compare_means(comparisons = my_comparisons)+
+  theme_classic()+theme(legend.position="none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))
+gridExtra::grid.arrange(p, bottom="CNAs (LOSS) correlation Response2 (72 samples)")
+table(tab$Response2)
+
+p <- ggplot(tab, aes(x=Response2, y=Mean.AF, fill=Response2)) + 
+  geom_boxplot(outlier.shape = NA)+
+  stat_compare_means()+
+  scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
+  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0.15, angle = 0, size = 3.75) +
+  stat_compare_means(comparisons = my_comparisons)+
+  theme_classic()+theme(legend.position="none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))
+gridExtra::grid.arrange(p, bottom="Mean.AF correlation Response2 (72 samples)")
+table(tab$Response2)
+
+
+#= SVs
+
+p <- ggplot(tab, aes(x=Response2, y=MantaBND, fill=Response2)) + 
+  geom_boxplot(outlier.shape = NA)+
+  stat_compare_means()+
+  scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
+  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = -1.5, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = -1.5, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = -1.5, angle = 0, size = 3.75) +
+  stat_compare_means(comparisons = my_comparisons)+
+  theme_classic()+theme(legend.position="none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))
+gridExtra::grid.arrange(p, bottom="MantaBND correlation Response2 (72 samples)")
+table(tab$Response2)
+
+p <- ggplot(tab, aes(x=Response2, y=MantaDEL, fill=Response2)) + 
+  geom_boxplot(outlier.shape = NA)+
+  stat_compare_means()+
+  scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
+  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0.15, angle = 0, size = 3.75) +
+  stat_compare_means(comparisons = my_comparisons)+
+  theme_classic()+theme(legend.position="none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))
+gridExtra::grid.arrange(p, bottom="MantaDEL correlation Response2 (72 samples)")
+table(tab$Response2)
+
+p <- ggplot(tab, aes(x=Response2, y=MantaDUP, fill=Response2)) + 
+  geom_boxplot(outlier.shape = NA)+
+  stat_compare_means()+
+  scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
+  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0.15, angle = 0, size = 3.75) +
+  stat_compare_means(comparisons = my_comparisons)+
+  theme_classic()+theme(legend.position="none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))
+gridExtra::grid.arrange(p, bottom="MantaDUP correlation Response2 (72 samples)")
+table(tab$Response2)
+
+p <- ggplot(tab, aes(x=Response2, y=MantaINS, fill=Response2)) + 
+  geom_boxplot(outlier.shape = NA)+
+  stat_compare_means()+
+  scale_fill_manual(values = c("#08415c","#cc2956", "#ef767a"), breaks = c("nCRT-R", "nCRT-NR Metastatic", "nCRT-NR Not-Metastatic")) +
+  annotate("text", label = paste('N = 16', sep = ''), x = 3, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 38', sep = ''), x = 2, y = 0.15, angle = 0, size = 3.75) +
+  annotate("text", label = paste('N = 18', sep = ''), x = 1, y = 0.15, angle = 0, size = 3.75) +
+  stat_compare_means(comparisons = my_comparisons)+
+  theme_classic()+theme(legend.position="none")+
+  geom_jitter(shape=16, position=position_jitter(0.2))
+gridExtra::grid.arrange(p, bottom="MantaINS correlation Response2 (72 samples)")
+table(tab$Response2)
+
+
+
+
+
 
 
