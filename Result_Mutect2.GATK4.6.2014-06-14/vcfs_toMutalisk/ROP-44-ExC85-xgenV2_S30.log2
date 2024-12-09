@@ -1,0 +1,16 @@
+
+VCFtools - 0.1.15
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--gzvcf /home/scratch90/vlira_13may2024//Result_Mutect2.GATK4.6.2024-06-14/FILTER_VAR/ROP-44-ExC85-xgenV2_S30.pass.var.vcf.gz
+	--recode-INFO-all
+	--out /home/scratch90/vlira_13may2024//Result_Mutect2.GATK4.6.2024-06-14/vcfs_toMutalisk/ROP-44-ExC85-xgenV2_S30
+	--positions /home/scratch90/vlira_13may2024//Result_Mutect2.GATK4.6.2024-06-14/mutations_to_filter_fromVCF/synonymous/ROP-44-ExC85-xgenV2_S30.synonymous.bed
+	--recode
+
+Using zlib version: 1.2.8
+After filtering, kept 1 out of 1 Individuals
+Outputting VCF file...
+After filtering, kept 245 out of a possible 920 Sites
+Run Time = 0.00 seconds
