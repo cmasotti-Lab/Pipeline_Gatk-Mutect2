@@ -1,6 +1,11 @@
 library("forestmodel")
 library(car)
 
+
+
+
+
+
 # CARREGANDO DADOS DA TABELA dados GENADOS NO SCRIPT ANTERIOR
 # Organizando os dados continuos em (numeric) 
 # E os dados categoricos em (factor)
