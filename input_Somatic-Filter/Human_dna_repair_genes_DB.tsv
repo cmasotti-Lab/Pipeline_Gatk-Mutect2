@@ -1,0 +1,306 @@
+DNA_Repair.GENE	DNA_Repair.CLASSIFICATION	DNA_Repair.CLASS
+UNG	Base excision repair (BER)	BER
+SMUG1	Base excision repair (BER)	BER
+MBD4	Base excision repair (BER)	BER
+TDG	Base excision repair (BER)	BER
+OGG1	Base excision repair (BER)	BER
+MUTYH	Base excision repair (BER)	BER
+MYH	Base excision repair (BER)	BER
+NTHL1	Base excision repair (BER)	BER
+NTH1	Base excision repair (BER)	BER
+MPG	Base excision repair (BER)	BER
+NEIL1	Base excision repair (BER)	BER
+NEIL2	Base excision repair (BER)	BER
+NEIL3	Base excision repair (BER)	BER
+APEX1	Other BER and strand break joining factors	BER_BreakJoiningFactors
+APE1	Other BER and strand break joining factors	BER_BreakJoiningFactors
+APEX2	Other BER and strand break joining factors	BER_BreakJoiningFactors
+LIG3	Other BER and strand break joining factors	BER_BreakJoiningFactors
+XRCC1	Other BER and strand break joining factors	BER_BreakJoiningFactors
+PNKP	Other BER and strand break joining factors	BER_BreakJoiningFactors
+APLF	Other BER and strand break joining factors	BER_BreakJoiningFactors
+HMCES	Other BER and strand break joining factors	BER_BreakJoiningFactors
+PARP1	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+ADPRT	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+PARP2	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+ADPRTL2	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+PARP3	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+ADPRTL3	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+PARG	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+PARPBP	Poly(ADP-ribose) polymerase (PARP) enzymes that bind to DNA	PARP
+MGMT	Direct reversal of damage	DRD
+ALKBH2	Direct reversal of damage	DRD
+ABH2	Direct reversal of damage	DRD
+ALKBH3	Direct reversal of damage	DRD
+DEPC1	Direct reversal of damage	DRD
+TDP1	Repair of DNA-protein crosslinks	DNA_PC
+TDP2	Repair of DNA-protein crosslinks	DNA_PC
+TTRAP	Repair of DNA-protein crosslinks	DNA_PC
+SPRTN	Repair of DNA-protein crosslinks	DNA_PC
+Spartan	Repair of DNA-protein crosslinks	DNA_PC
+MSH2	deficient Mismatch  Repair (dMMR)	dMMR
+MSH3	deficient Mismatch  Repair (dMMR)	dMMR
+MSH6	deficient Mismatch  Repair (dMMR)	dMMR
+MLH1	deficient Mismatch  Repair (dMMR)	dMMR
+PMS2	deficient Mismatch  Repair (dMMR)	dMMR
+MSH2	Mismatch excision repair (MMR)	MMR
+MSH3	Mismatch excision repair (MMR)	MMR
+MSH6	Mismatch excision repair (MMR)	MMR
+MLH1	Mismatch excision repair (MMR)	MMR
+PMS2	Mismatch excision repair (MMR)	MMR
+MSH4	Mismatch excision repair (MMR)	MMR
+MSH5	Mismatch excision repair (MMR)	MMR
+MLH3	Mismatch excision repair (MMR)	MMR
+PMS1	Mismatch excision repair (MMR)	MMR
+PMS2P3	Mismatch excision repair (MMR)	MMR
+PMS2L3	Mismatch excision repair (MMR)	MMR
+HFM1	Mismatch excision repair (MMR)	MMR
+XPC	Nucleotide excision repair (NER)	NER
+RAD23B	Nucleotide excision repair (NER)	NER
+CETN2	Nucleotide excision repair (NER)	NER
+RAD23A	Nucleotide excision repair (NER)	NER
+XPA	Nucleotide excision repair (NER)	NER
+DDB1	Nucleotide excision repair (NER)	NER
+DDB2	Nucleotide excision repair (NER)	NER
+XPE	Nucleotide excision repair (NER)	NER
+RPA1	Nucleotide excision repair (NER)	NER
+RPA2	Nucleotide excision repair (NER)	NER
+RPA3	Nucleotide excision repair (NER)	NER
+TFIIH	Nucleotide excision repair (NER)	NER
+ERCC3	Nucleotide excision repair (NER)	NER
+XPB	Nucleotide excision repair (NER)	NER
+ERCC2	Nucleotide excision repair (NER)	NER
+XPD	Nucleotide excision repair (NER)	NER
+GTF2H1	Nucleotide excision repair (NER)	NER
+GTF2H2	Nucleotide excision repair (NER)	NER
+GTF2H3	Nucleotide excision repair (NER)	NER
+GTF2H4	Nucleotide excision repair (NER)	NER
+GTF2H5	Nucleotide excision repair (NER)	NER
+TTDA	Nucleotide excision repair (NER)	NER
+GTF2E2	Nucleotide excision repair (NER)	NER
+CDK7	Nucleotide excision repair (NER)	NER
+CCNH	Nucleotide excision repair (NER)	NER
+MNAT1	Nucleotide excision repair (NER)	NER
+ERCC5	Nucleotide excision repair (NER)	NER
+XPG	Nucleotide excision repair (NER)	NER
+ERCC1	Nucleotide excision repair (NER)	NER
+ERCC4	Nucleotide excision repair (NER)	NER
+XPF	Nucleotide excision repair (NER)	NER
+LIG1	Nucleotide excision repair (NER)	NER
+ERCC8	NER-related	NER_related
+CSA	NER-related	NER_related
+ERCC6	NER-related	NER_related
+CSB	NER-related	NER_related
+UVSSA	NER-related	NER_related
+KIAA1530	NER-related	NER_related
+XAB2	NER-related	NER_related
+HCNP	NER-related	NER_related
+MMS19	NER-related	NER_related
+RAD51	Homologous recombination	HR
+RAD51B	Homologous recombination	HR
+RAD51D	Homologous recombination	HR
+HELQ	Homologous recombination	HR
+HEL308	Homologous recombination	HR
+SWI5	Homologous recombination	HR
+SWSAP1	Homologous recombination	HR
+ZSWIM7	Homologous recombination	HR
+SWS1	Homologous recombination	HR
+SPIDR	Homologous recombination	HR
+PDS5B	Homologous recombination	HR
+DMC1	Homologous recombination	HR
+XRCC2	Homologous recombination	HR
+XRCC3	Homologous recombination	HR
+RAD52	Homologous recombination	HR
+RAD54L	Homologous recombination	HR
+RAD54B	Homologous recombination	HR
+BRCA1	Homologous recombination	HR
+BARD1	Homologous recombination	HR
+ABRAXAS1	Homologous recombination	HR
+PAXIP1	Homologous recombination	HR
+PTIP	Homologous recombination	HR
+SMC5	Homologous recombination	HR
+SMC6	Homologous recombination	HR
+SHLD1	Homologous recombination	HR
+SHLD2	Homologous recombination	HR
+FAM35A	Homologous recombination	HR
+SHLD3	Homologous recombination	HR
+SEM1	Homologous recombination	HR
+SHFM1	Homologous recombination	HR
+DSS1	Homologous recombination	HR
+RAD50	Homologous recombination	HR
+MRE11A	Homologous recombination	HR
+NBN	Homologous recombination	HR
+NBS1	Homologous recombination	HR
+RBBP8	Homologous recombination	HR
+CtIP	Homologous recombination	HR
+MUS81	Homologous recombination	HR
+EME1	Homologous recombination	HR
+MMS4L	Homologous recombination	HR
+EME2	Homologous recombination	HR
+SLX1A	Homologous recombination	HR
+GIYD1	Homologous recombination	HR
+SLX1B	Homologous recombination	HR
+GIYD2	Homologous recombination	HR
+GEN1	Homologous recombination	HR
+FANCA	Fanconi anemia	FanconiAnemia
+FANCB	Fanconi anemia	FanconiAnemia
+FANCC	Fanconi anemia	FanconiAnemia
+BRCA2	Fanconi anemia	FanconiAnemia
+FANCD1	Fanconi anemia	FanconiAnemia
+FANCD2	Fanconi anemia	FanconiAnemia
+FANCE	Fanconi anemia	FanconiAnemia
+FANCF	Fanconi anemia	FanconiAnemia
+FANCG	Fanconi anemia	FanconiAnemia
+XRCC9	Fanconi anemia	FanconiAnemia
+FANCI	Fanconi anemia	FanconiAnemia
+KIAA1794	Fanconi anemia	FanconiAnemia
+BRIP1	Fanconi anemia	FanconiAnemia
+FANCJ	Fanconi anemia	FanconiAnemia
+FANCL	Fanconi anemia	FanconiAnemia
+FANCM	Fanconi anemia	FanconiAnemia
+PALB2	Fanconi anemia	FanconiAnemia
+FANCN	Fanconi anemia	FanconiAnemia
+RAD51C	Fanconi anemia	FanconiAnemia
+FANCO	Fanconi anemia	FanconiAnemia
+SLX4	Fanconi anemia	FanconiAnemia
+FANCP	Fanconi anemia	FanconiAnemia
+FAAP20	Fanconi anemia	FanconiAnemia
+C1orf86	Fanconi anemia	FanconiAnemia
+FAAP24	Fanconi anemia	FanconiAnemia
+C19orf40	Fanconi anemia	FanconiAnemia
+FAAP100	Fanconi anemia	FanconiAnemia
+UBE2T	Fanconi anemia	FanconiAnemia
+FANCT	Fanconi anemia	FanconiAnemia
+XRCC6	Non-homologous end-joining	NHEJ
+Ku70	Non-homologous end-joining	NHEJ
+XRCC5	Non-homologous end-joining	NHEJ
+Ku80	Non-homologous end-joining	NHEJ
+PRKDC	Non-homologous end-joining	NHEJ
+LIG4	Non-homologous end-joining	NHEJ
+XRCC4	Non-homologous end-joining	NHEJ
+DCLRE1C	Non-homologous end-joining	NHEJ
+Artemis	Non-homologous end-joining	NHEJ
+NHEJ1	Non-homologous end-joining	NHEJ
+XLF	Non-homologous end-joining	NHEJ
+Cernunnos	Non-homologous end-joining	NHEJ
+NUDT1	Modulation of nucleotide pools	MNP
+MTH1	Modulation of nucleotide pools	MNP
+DUT	Modulation of nucleotide pools	MNP
+RRM2B	Modulation of nucleotide pools	MNP
+p53R2	Modulation of nucleotide pools	MNP
+PARK7	Modulation of nucleotide pools	MNP
+DJ-1	Modulation of nucleotide pools	MNP
+DNPH1	Modulation of nucleotide pools	MNP
+NUDT15	Modulation of nucleotide pools	MNP
+MTH2	Modulation of nucleotide pools	MNP
+NUDT18	Modulation of nucleotide pools	MNP
+MTH3	Modulation of nucleotide pools	MNP
+POLA1	DNA polymerases	DNA_pol
+POLB	DNA polymerases	DNA_pol
+POLD1	DNA polymerases	DNA_pol
+POLD2	DNA polymerases	DNA_pol
+POLD3	DNA polymerases	DNA_pol
+POLD4	DNA polymerases	DNA_pol
+POLE	DNA polymerases	DNA_pol
+POLE1	DNA polymerases	DNA_pol
+POLE2	DNA polymerases	DNA_pol
+POLE3	DNA polymerases	DNA_pol
+POLE4	DNA polymerases	DNA_pol
+REV3L	DNA polymerases	DNA_pol
+POLZ	DNA polymerases	DNA_pol
+MAD2L2	DNA polymerases	DNA_pol
+REV7	DNA polymerases	DNA_pol
+REV1	DNA polymerases	DNA_pol
+REV1L	DNA polymerases	DNA_pol
+POLG	DNA polymerases	DNA_pol
+POLH	DNA polymerases	DNA_pol
+POLI	DNA polymerases	DNA_pol
+RAD30B	DNA polymerases	DNA_pol
+POLQ	DNA polymerases	DNA_pol
+POLK	DNA polymerases	DNA_pol
+DINB1	DNA polymerases	DNA_pol
+POLL	DNA polymerases	DNA_pol
+POLM	DNA polymerases	DNA_pol
+POLN	DNA polymerases	DNA_pol
+POL4P	DNA polymerases	DNA_pol
+PRIMPOL	DNA polymerases	DNA_pol
+DNTT	DNA polymerases	DNA_pol
+FEN1	Editing and processing nucleases	Editing_Processing
+DNase IV	Editing and processing nucleases	Editing_Processing
+FAN1	Editing and processing nucleases	Editing_Processing
+MTMR15	Editing and processing nucleases	Editing_Processing
+TREX1	Editing and processing nucleases	Editing_Processing
+TREX2	Editing and processing nucleases	Editing_Processing
+EXO1	Editing and processing nucleases	Editing_Processing
+HEX1	Editing and processing nucleases	Editing_Processing
+APTX	Editing and processing nucleases	Editing_Processing
+aprataxin	Editing and processing nucleases	Editing_Processing
+SPO11	Editing and processing nucleases	Editing_Processing
+ENDOV	Editing and processing nucleases	Editing_Processing
+DNA2	Editing and processing nucleases	Editing_Processing
+DCLRE1A	Editing and processing nucleases	Editing_Processing
+SNM1A	Editing and processing nucleases	Editing_Processing
+DCLRE1B	Editing and processing nucleases	Editing_Processing
+SNM1B	Editing and processing nucleases	Editing_Processing
+EXO5	Editing and processing nucleases	Editing_Processing
+UBE2A	Ubiquitination and modification	Ubiq_Mod
+RAD6A	Ubiquitination and modification	Ubiq_Mod
+UBE2B	Ubiquitination and modification	Ubiq_Mod
+RAD6B	Ubiquitination and modification	Ubiq_Mod
+RAD18	Ubiquitination and modification	Ubiq_Mod
+SHPRH	Ubiquitination and modification	Ubiq_Mod
+HLTF	Ubiquitination and modification	Ubiq_Mod
+SMARCA3	Ubiquitination and modification	Ubiq_Mod
+RNF168	Ubiquitination and modification	Ubiq_Mod
+RNF8	Ubiquitination and modification	Ubiq_Mod
+RNF4	Ubiquitination and modification	Ubiq_Mod
+UBE2V2	Ubiquitination and modification	Ubiq_Mod
+MMS2	Ubiquitination and modification	Ubiq_Mod
+UBE2N	Ubiquitination and modification	Ubiq_Mod
+UBC13	Ubiquitination and modification	Ubiq_Mod
+USP1	Ubiquitination and modification	Ubiq_Mod
+WDR48	Ubiquitination and modification	Ubiq_Mod
+HERC2	Ubiquitination and modification	Ubiq_Mod
+H2AX	Chromatin Structure and Modification	Chromatin_Mod
+H2AFX	Chromatin Structure and Modification	Chromatin_Mod
+CHAF1A	Chromatin Structure and Modification	Chromatin_Mod
+CAF1	Chromatin Structure and Modification	Chromatin_Mod
+SETMAR	Chromatin Structure and Modification	Chromatin_Mod
+METNASE	Chromatin Structure and Modification	Chromatin_Mod
+ATRX	Chromatin Structure and Modification	Chromatin_Mod
+BLM	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+RMI1	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+TOP3A	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+WRN	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+RECQL4	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+ATM	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+MPLKIP	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+TTDN1	Genes defective in diseases associated with sensitivity to DNA damaging agents	Disease_DNA_damage
+RPA4	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+PRPF19	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+PSO4	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+RECQL	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+RECQ1	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+RECQL5	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+RDM1	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+RAD52B	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+NABP2	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+SSB1	Other identified genes with known or suspected DNA repair function	Other_Repair_Function
+ATR	Other conserved DNA damage response genes	Other_DNA_damage
+ATRIP	Other conserved DNA damage response genes	Other_DNA_damage
+MDC1	Other conserved DNA damage response genes	Other_DNA_damage
+PCNA	Other conserved DNA damage response genes	Other_DNA_damage
+RAD1	Other conserved DNA damage response genes	Other_DNA_damage
+RAD9A	Other conserved DNA damage response genes	Other_DNA_damage
+HUS1	Other conserved DNA damage response genes	Other_DNA_damage
+RAD17	Other conserved DNA damage response genes	Other_DNA_damage
+RAD24	Other conserved DNA damage response genes	Other_DNA_damage
+CHEK1	Other conserved DNA damage response genes	Other_DNA_damage
+CHEK2	Other conserved DNA damage response genes	Other_DNA_damage
+TP53	Other conserved DNA damage response genes	Other_DNA_damage
+TP53BP1	Other conserved DNA damage response genes	Other_DNA_damage
+53BP1	Other conserved DNA damage response genes	Other_DNA_damage
+RIF1	Other conserved DNA damage response genes	Other_DNA_damage
+TOPBP1	Other conserved DNA damage response genes	Other_DNA_damage
+CLK2	Other conserved DNA damage response genes	Other_DNA_damage
+PER1	Other conserved DNA damage response genes	Other_DNA_damage

@@ -1,0 +1,51 @@
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response1"
+[1] "CD58"
+              Response1
+mutGene        nCRT-NR nCRT-R
+  dNdSGene           0      3
+  not_dNdSGene      56     13
+[1] "========== Chisq Test ======================================="
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  dt3
+X-squared = 6.764, df = 1, p-value = 0.009302
+
+[1] "========== Fisher Test ======================================"
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.00939
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.0000000 0.6424825
+sample estimates:
+odds ratio 
+         0 
+
+[1] "============================================================="
+[1] "============================================================="
+[1] "Response2"
+[1] "CD58"
+              Response2
+mutGene        nCRT-NR Metastatic nCRT-NR Not-Metastatic nCRT-R
+  dNdSGene                      0                      0      3
+  not_dNdSGene                 18                     38     13
+[1] "========== Chisq Test ======================================="
+
+	Pearson's Chi-squared test
+
+data:  dt3
+X-squared = 10.957, df = 2, p-value = 0.004177
+
+[1] "========== Fisher Test ======================================"
+
+	Fisher's Exact Test for Count Data
+
+data:  dt3
+p-value = 0.00939
+alternative hypothesis: two.sided
+

@@ -373,7 +373,7 @@ somatic_Samples<- merge(somatic.MATH, tmb, by = "SAMPLE")
 #==============================================================================#
 # Carregando tabela de dados Clinicos ####
 #==============================================================================#
-Clinical <- read.xlsx("Dados Clinicos JP final  - Dez2022 - FILTRADO.xlsx", sheetIndex = 1, header = T)
+Clinical <- xlsx::read.xlsx("Dados Clinicos JP final  - Dez2022 - FILTRADO.xlsx", sheetIndex = 1, header = T)
 Clinical<- Clinical[rowSums(is.na(Clinical)) != ncol(Clinical), -c(6)]
 
 ## Renomeando desfeichos clinicos ####
