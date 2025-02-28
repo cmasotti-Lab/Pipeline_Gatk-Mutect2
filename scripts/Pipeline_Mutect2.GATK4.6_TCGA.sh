@@ -1,5 +1,4 @@
 #Pipeline para testar a eficacia do Pipeline com dados de TCGA
-
 #1. Ajustes das variaves de ambiente para facilitar na reexecução quando os diretorios forem atualizado
 #2. Alterado o diretorio onde estava o PON na scratch45 para /home/users/vlira/PanelOfNormals/PoN.100COVID.vcf.gz
 #3. Agora o script recebe 2 agumentos: 1- lista de amostras; 2- diretorio SCRATCH
@@ -7,7 +6,7 @@
 #5. Usando CRAN no lugar de BAM
 
 export SCRATCH90="/home/scratch90/vlira_11fev2025/"
-export MEM=100
+export MEM=90
 export JOBS=5
 export INPUT_BAMS="/home/scratch60/vlira_QC_bamAmanda/GDC_9samples/*/"
 export DATA=$(date "+%F")
