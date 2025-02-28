@@ -9,6 +9,7 @@ export SCRATCH90="/home/scratch90/vlira_11fev2025/"
 export MEM=90
 export JOBS=5
 export INPUT_BAMS="/home/scratch60/vlira_QC_bamAmanda/GDC_9samples/*/"
+export INPUT_BAMS="/home/scratch90/vlira_11fev2025/TOY/TOYS_SAMPLES/*"
 export DATA=$(date "+%F")
 export OUTPUT_DIR="/home/scratch60/Result_TestTCGA_Pipeline_Mutect2.${DATA}/"
 
