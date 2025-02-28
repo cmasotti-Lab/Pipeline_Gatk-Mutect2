@@ -28,7 +28,7 @@ export CROSS_REFERENCE="${SCRATCH90}/references/refGene_TARGET_COSMICv82CensusGe
 export INDEL_KNOWN="/home/projects2/LIDO/molPathol/oncoseek/nextseq/references/Mills_and_1000G_gold_standard.indels.hg38.vcf"
 export DBSNP="${SCRATCH90}/references/dbsnp_151.hg38.vcf.gz"
 
-export LOG_FILE="${OUTPUT_DIR}/Pipeline_Mutect2.GATK4.6_TCGAteste.log"
+export LOG_FILE="${OUTPUT_DIR}/Pipeline_Mutect2.GATK4.6_TCGA.log"
 
 mkdir ${OUTPUT_DIR}
 
