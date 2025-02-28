@@ -6,7 +6,7 @@
 #5. Usando CRAN no lugar de BAM
 
 export SCRATCH90="/home/scratch90/vlira_11fev2025/"
-export MEM=90
+export MEM=100
 export JOBS=5
 export INPUT_BAMS="/home/scratch60/vlira_QC_bamAmanda/GDC_9samples/*/"
 export INPUT_BAMS="/home/scratch90/vlira_11fev2025/TOY/TOYS_SAMPLES/*"
