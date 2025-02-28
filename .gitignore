@@ -3,3 +3,7 @@ genesRamon.txt
 mut-genesRamon.tsv
 /Result_Mutect.ROP.2024-06-14/output-Mutect2_SomaticFilters.2024-06-14
 /Result_Mutect.ROP.2024-06-14
+input_Somatic-Filter/TOY-annovar.hg38_multianno.txt
+input_Somatic-Filter/annovar.norm.hg38_multianno.txt
+input_Somatic-Filter/TOY-annovar.hg38_multianno.txt
+input_Somatic-Filter/annovar.norm.hg38_multianno.txt
